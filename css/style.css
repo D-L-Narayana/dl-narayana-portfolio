@@ -1,12 +1,8 @@
-@font-face{font-family:'Caveat';src:url(../fonts/caveat.woff2) format('woff2');font-weight:600;font-display:swap}
-@font-face{font-family:'Archivo Black';src:url(../fonts/archivo.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Caveat';src:url(../fonts/caveat.woff2) format('woff2');font-weight:600;font-display:block}
+@font-face{font-family:'Archivo Black';src:url(../fonts/archivo.woff2) format('woff2');font-weight:400;font-display:block}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black','Arial Black',sans-serif;color:#fff}
 #pinkbg{position:fixed;inset:0;background:radial-gradient(95% 85% at 18% 12%,#ff5fae 0%,rgba(255,95,174,0) 55%),radial-gradient(120% 100% at 82% 88%,#5a0732 0%,rgba(90,7,50,0) 60%),radial-gradient(70% 60% at 60% 72%,rgba(255,255,255,.13),transparent 60%),linear-gradient(115deg,#d4147a 0%,#ee2a96 48%,#9c0d58 100%)}
-#cbg{position:fixed;inset:0;opacity:0}
-#cbgImg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.28)}
-#cbgColor{position:absolute;inset:0;mix-blend-mode:color}
-#cbgMult{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.55}
 .wash{position:fixed;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.4),transparent 35%,transparent 62%,rgba(0,0,0,.45))}
 .grain{position:fixed;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px}
 #blackout{position:fixed;inset:0;z-index:20;background:#000;pointer-events:none}
@@ -22,19 +18,19 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black
 #name{display:flex;font-size:clamp(40px,8.6vw,148px);color:#fff;letter-spacing:.015em;white-space:nowrap;line-height:1}
 #name span{display:inline-block;will-change:transform;text-shadow:0 4px 34px rgba(0,0,0,.35)}
 #name .sp{width:.3em}
-#tag{margin-top:22px;font-family:Arial,Helvetica,sans-serif;font-size:clamp(11px,1.3vw,16px);letter-spacing:.42em;color:#ffe3f1;text-indent:.42em}
+#tag{margin-top:18px;font-family:Arial,Helvetica,sans-serif;font-size:clamp(11px,1.3vw,16px);letter-spacing:.42em;color:#ffe3f1;text-indent:.42em}
 #scrollHint{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:4;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.5em;text-indent:.5em;opacity:0}
 #proj{position:fixed;inset:0;z-index:2;opacity:0;visibility:hidden}
 #headline{position:absolute;top:0;left:4vw;right:4vw;height:50%;display:flex;align-items:flex-end;flex-wrap:wrap;gap:2vh 6vw;padding-bottom:3vh;pointer-events:none}
-#ptitle{font-size:clamp(36px,6.7vh,92px);line-height:.88;letter-spacing:-.02em}
+#ptitle{font-size:clamp(36px,6.7vh,92px);line-height:.88;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.3)}
 .hlLine{display:block;overflow:hidden}
 .hlIn{display:block}
-#pcredit{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.14em;opacity:.8;text-transform:uppercase}
+#pcredit{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.14em;opacity:.85;text-transform:uppercase}
 #pmeta{margin-left:auto;display:flex;gap:5vw;align-items:flex-end}
-#pmeta span{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.14em;opacity:.8;white-space:nowrap;text-transform:uppercase}
+#pmeta span{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.14em;opacity:.85;white-space:nowrap;text-transform:uppercase}
 #stripWrap{position:absolute;left:0;right:0;top:50%}
 #strip{display:flex;align-items:flex-start;will-change:transform}
-.card{position:relative;flex:none;overflow:hidden;border:0;padding:0;background:rgba(255,255,255,.06);cursor:pointer}
+.card{position:relative;flex:none;overflow:hidden;border:0;padding:0;background:rgba(255,255,255,.06);cursor:pointer;box-shadow:0 18px 50px rgba(0,0,0,.35)}
 .card img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;display:block;pointer-events:none}
 .dimcard{position:absolute;inset:0;background:#000;opacity:.16;pointer-events:none}
 #rail{position:absolute;left:4vw;bottom:3vh;width:20vw;min-width:150px}
@@ -46,7 +42,9 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black
 #ovDim{position:absolute;inset:0;background:rgba(0,0,0,.35)}
 #ovCard{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;border-radius:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
 #ovImg{width:100%;height:100%;object-fit:cover;object-position:50% 0}
-#ovTitle{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-size:clamp(30px,5.4vw,88px);mix-blend-mode:difference;pointer-events:none;white-space:nowrap;letter-spacing:-.02em}
+#ovTitleL,#ovTitleR{position:absolute;top:50%;transform:translateY(-50%);font-size:clamp(26px,4.4vw,72px);letter-spacing:-.02em;pointer-events:none;white-space:nowrap;text-shadow:0 6px 34px rgba(0,0,0,.55)}
+#ovTitleL{left:5vw}
+#ovTitleR{right:5vw}
 #ovHint{position:absolute;left:0;right:0;bottom:9%;text-align:center;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.4em;text-indent:.4em;opacity:.9}
 #ovClose{position:absolute;top:16px;right:26px;z-index:60;background:none;border:0;color:#fff;font-size:36px;cursor:pointer;line-height:1}
 #ovDetails{position:absolute;left:0;right:0;bottom:0;transform:translateY(100%);background:linear-gradient(to top,rgba(0,0,0,.94) 62%,transparent);padding:10vh 6vw 5vh;display:flex;justify-content:center}

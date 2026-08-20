@@ -1,10 +1,11 @@
 window.Overlay=(function(){
-var el,card,imgEl,bgI,det,titleEl,hint,odT,odA,odF,odL;
+var el,card,imgEl,bgI,det,tL,tR,hint,odT,odA,odF,odL;
 var on=false,p=0,tp=0,timer=null,raf=null;
 function init(){
 el=document.getElementById('overlay');card=document.getElementById('ovCard');
 imgEl=document.getElementById('ovImg');bgI=document.getElementById('ovBg');
-det=document.getElementById('ovDetails');titleEl=document.getElementById('ovTitle');
+det=document.getElementById('ovDetails');
+tL=document.getElementById('ovTitleL');tR=document.getElementById('ovTitleR');
 hint=document.getElementById('ovHint');
 odT=document.getElementById('odTitle');odA=document.getElementById('odAbout');
 odF=document.getElementById('odFeats');odL=document.getElementById('odLink');
@@ -23,7 +24,9 @@ function open(pr){
 if(on)return;
 on=true;p=0;tp=0;
 imgEl.src=pr.img;bgI.src=pr.img;
-titleEl.textContent=pr.title.replace('\n',' ');
+var parts=pr.title.split('\n');
+tL.textContent=parts[0]||'';
+tR.textContent=parts[1]||'';
 odT.textContent=pr.title.replace('\n',' ');
 odA.textContent=pr.about;
 odF.innerHTML='';
@@ -31,6 +34,8 @@ pr.feats.forEach(function(f){var li=document.createElement('li');li.textContent=
 odL.href=pr.url;
 el.style.display='block';
 gsap.fromTo(el,{opacity:0},{opacity:1,duration:0.4});
+gsap.fromTo(tL,{x:-30,opacity:0},{x:0,opacity:1,duration:0.6,delay:0.15,ease:'power2.out'});
+gsap.fromTo(tR,{x:30,opacity:0},{x:0,opacity:1,duration:0.6,delay:0.15,ease:'power2.out'});
 apply(0);
 if(raf)cancelAnimationFrame(raf);
 loop();}
@@ -42,14 +47,15 @@ function wheel(d){tp=Math.max(0,Math.min(2,tp+d/800));}
 function loop(){p+=(tp-p)*0.14;apply(p);raf=requestAnimationFrame(loop);}
 function apply(q){
 var e1=Math.min(1,q),e2=Math.max(0,q-1);
-var w0=Math.min(window.innerWidth*0.3,300),h0=window.innerHeight*0.42;
+var w0=Math.min(window.innerWidth*0.3,300),h0=window.innerHeight*0.44;
 var w1=window.innerWidth*0.92,h1=window.innerHeight*0.86;
 card.style.width=(w0+(w1-w0)*e1)+'px';
 card.style.height=(h0+(h1-h0)*e1)+'px';
 card.style.transform='translate(-50%,'+(-50-e2*10)+'%)';
 card.style.borderRadius=(14-8*e1)+'px';
 det.style.transform='translateY('+((1-e2)*100)+'%)';
-hint.style.opacity=String(Math.max(0,1-q*2.5));
-titleEl.style.opacity=String(Math.max(0,1-e2*1.4));}
+hint.style.opacity=String(Math.max(0,0.9-q*2.5));
+var to=Math.max(0,1-e1*1.35);
+tL.style.opacity=String(to);tR.style.opacity=String(to);}
 return{init:init,arm:arm,disarm:disarm,open:open,close:close,wheel:wheel,isOpen:function(){return on;}};
 })();
