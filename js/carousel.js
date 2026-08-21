@@ -1,17 +1,24 @@
 window.Carousel=(function(){
 var P=window.PROJECTS,idx=0,isBuilt=false;
-var strip,fullH,halfH,cardW,gap,step;
+var strip,cardH,cardW,gap,step,AR=1.7;
 function xFor(i){return window.innerWidth/2-(i*step+cardW/2);}
 function slide(anim){gsap.to(strip,{x:xFor(idx),duration:anim?0.8:0,ease:'power3.out'});}
 function measure(){
-fullH=Math.min(380,Math.max(110,window.innerHeight*0.30));
-halfH=fullH/2;cardW=fullH*0.75;gap=Math.max(14,Math.round(cardW*0.11));step=cardW+gap;
+cardH=Math.min(340,Math.max(120,window.innerHeight*0.26));
+cardW=Math.round(cardH*AR);
+gap=Math.max(18,Math.round(cardW*0.09));step=cardW+gap;
 strip.style.gap=gap+'px';
-document.getElementById('stripWrap').style.height=fullH+'px';
+document.getElementById('stripWrap').style.height=Math.ceil(cardH*1.16)+'px';
 [].forEach.call(strip.children,function(el,i){
 el.style.width=cardW+'px';
-el.style.height=(i===idx?fullH:halfH)+'px';});
+el.style.height=cardH+'px';
+gsap.set(el,{scale:i===idx?1.12:1,transformOrigin:'50% 0%'});});
 slide(false);}
+function adoptAR(img){
+if(!img.naturalWidth||!img.naturalHeight)return;
+var r=img.naturalWidth/img.naturalHeight;
+if(r<1.1)r=1.1;if(r>2.2)r=2.2;
+if(Math.abs(r-AR)>0.01){AR=r;if(isBuilt)measure();}}
 function setHead(){
 var p=P[idx],h=document.getElementById('ptitle');h.innerHTML='';
 p.title.split('\n').forEach(function(l,i){
@@ -32,7 +39,7 @@ i=Math.max(0,Math.min(P.length-1,i));
 if(i===idx)return false;
 idx=i;
 [].forEach.call(strip.children,function(el,j){
-gsap.to(el,{height:j===idx?fullH:halfH,duration:0.55,ease:'power3.out'});
+gsap.to(el,{scale:j===idx?1.12:1,transformOrigin:'50% 0%',duration:0.55,ease:'power3.out'});
 gsap.to(el.querySelector('.dimcard'),{opacity:j===idx?0:0.16,duration:0.55});});
 slide(true);setHead();rail();return true;}
 function build(){
@@ -42,6 +49,8 @@ var b=document.createElement('button');
 b.type='button';b.className='card';
 b.setAttribute('aria-label',p.title.replace('\n',' '));
 b.innerHTML='<img src="'+p.img+'" alt="" draggable="false"><span class="dimcard"'+(i===0?' style="opacity:0"':'')+'></span>';
+var im=b.querySelector('img');
+if(im.complete){adoptAR(im);}else{im.addEventListener('load',function(){adoptAR(im);});}
 b.addEventListener('click',function(){if(i===idx){window.Overlay.open(p);}else{focus(i);}});
 b.addEventListener('pointerenter',function(){window.Overlay.arm(p,b,i===idx);});
 b.addEventListener('pointerleave',function(){window.Overlay.disarm(b);});
