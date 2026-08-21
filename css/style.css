@@ -30,7 +30,7 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black
 #scrollHint{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:4;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.5em;text-indent:.5em;opacity:0}
 #proj{position:fixed;inset:0;z-index:2;opacity:0;visibility:hidden}
 #headline{position:absolute;top:0;left:4vw;right:4vw;height:50%;display:flex;align-items:flex-end;flex-wrap:wrap;gap:2vh 6vw;padding-bottom:3vh;pointer-events:none}
-#ptitle{font-size:clamp(36px,6.7vh,92px);line-height:.88;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.3)}
+#ptitle{font-size:clamp(36px,6.7vh,92px);line-height:.88;letter-spacing:-.02em}
 .hlLine{display:block;overflow:hidden}
 .hlIn{display:block}
 #pcredit{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.14em;opacity:.85;text-transform:uppercase}
