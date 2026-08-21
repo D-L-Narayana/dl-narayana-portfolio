@@ -5,7 +5,7 @@ function xFor(i){return window.innerWidth/2-(i*step+cardW/2);}
 function slide(anim){gsap.to(strip,{x:xFor(idx),duration:anim?0.8:0,ease:'power3.out'});}
 function measure(){
 fullH=Math.min(380,Math.max(110,window.innerHeight*0.30));
-halfH=fullH/2;cardW=fullH*0.75;gap=Math.max(4,Math.round(cardW*0.038));step=cardW+gap;
+halfH=fullH/2;cardW=fullH*0.75;gap=Math.max(14,Math.round(cardW*0.11));step=cardW+gap;
 strip.style.gap=gap+'px';
 document.getElementById('stripWrap').style.height=fullH+'px';
 [].forEach.call(strip.children,function(el,i){

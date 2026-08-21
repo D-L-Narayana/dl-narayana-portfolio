@@ -43,12 +43,8 @@
   <button id="ovClose" aria-label="Close">&times;</button>
 </div>
 <div id="loader">
-  <svg id="ldArcs" viewBox="0 0 100 100" aria-hidden="true">
-    <path d="M18 62 A36 36 0 0 1 82 62" stroke="#6ea8ff" stroke-width="7" fill="none" stroke-linecap="round"/>
-    <path d="M32 66 A23 23 0 0 1 68 66" stroke="#e0655f" stroke-width="7" fill="none" stroke-linecap="round"/>
-  </svg>
-  <div id="ldWord">loading</div>
-  <div id="ldBarWrap"><div id="ldBar"></div></div>
+  <div id="ldPhase"></div>
+  <div id="ldBarWrap"><div id="ldBar"><div id="ldSheen"></div></div></div>
 </div>
 <script src="lib/gsap.min.js"></script>
 <script src="js/data.js"></script>
