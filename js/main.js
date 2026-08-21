@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded',function(){
 window.Overlay.init();
+window.Nav.init();
 var started=false;
 function start(){
 if(started)return;started=true;

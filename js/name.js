@@ -1,10 +1,10 @@
 window.nameIntro=function(tl){
 var el=document.getElementById('name');
-el.classList.add('rainbow');
+el.classList.add('polish');
 'D L NARAYANA'.split('').forEach(function(ch,i){
 var s=document.createElement('span');
 if(ch===' '){s.className='sp';s.innerHTML='&nbsp;';}else{s.textContent=ch;}
-s.style.animationDelay=(-i*0.22)+'s';
+s.style.animationDelay=(i*0.08)+'s';
 el.appendChild(s);});
 var sp=el.querySelectorAll('span');
 tl.set('#nwrap',{visibility:'visible'},'exit+=0.55');

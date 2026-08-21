@@ -15,7 +15,12 @@
 <div id="pinkbg"></div>
 <div class="wash"></div>
 <div class="grain"></div>
-<header id="topbar"><a id="tbHome">&#8598; Home</a><div id="tbBrand">D L NARAYANA</div><a id="tbGit" href="https://github.com/Rahul777111" target="_blank" rel="noreferrer">GitHub &#9776;</a></header>
+<nav id="nav">
+  <button type="button" class="navItem active" data-m="home">Home</button>
+  <button type="button" class="navItem" data-m="about">About</button>
+  <button type="button" class="navItem" data-m="projects">Projects</button>
+  <button type="button" class="navItem" data-m="resume">Resume</button>
+</nav>
 <section id="stage">
   <svg id="hello" viewBox="0 0 900 320" aria-label="Hello">
     <text class="hl" x="450" y="218" text-anchor="middle"><tspan>H</tspan><tspan>e</tspan><tspan>l</tspan><tspan>l</tspan><tspan>o</tspan></text>
@@ -29,6 +34,33 @@
   <div id="headline"><h2 id="ptitle"></h2><p id="pcredit"></p><div id="pmeta"></div></div>
   <div id="stripWrap"><div id="strip"></div></div>
   <div id="rail"><div class="railNums"><span id="railCur">01</span><span id="railTot">03</span></div><div class="railBar"><div id="railFill"></div></div></div>
+</section>
+<section id="sec-about" class="sec">
+  <div class="secInner">
+    <h2>About Me</h2>
+    <p class="lead">I'm D L Narayana &mdash; a web &amp; product design enthusiast who loves turning blank screens into living, moving experiences. I design in the browser: research, sketch, prototype, then build the real thing with clean HTML/CSS/JS and motion that feels alive.</p>
+    <p>I've shipped three end-to-end products &mdash; CityHelp (realtime civic reporting for Hyderabad), StayNest (a curated stays platform) and ResumeForge (an ATS-scored resume builder) &mdash; owning everything from UX flows to final pixels and deployment.</p>
+    <div class="chips"><span>UI/UX DESIGN</span><span>FIGMA</span><span>HTML &middot; CSS &middot; JS</span><span>GSAP MOTION</span><span>REACT BASICS</span><span>RESPONSIVE DESIGN</span><span>PROTOTYPING</span><span>USER RESEARCH</span><span>DESIGN SYSTEMS</span></div>
+    <div class="cards3">
+      <div><h5>DESIGN</h5><p>Research, wireframes, UI systems and interaction specs that developers love.</p></div>
+      <div><h5>BUILD</h5><p>Hand-coded, responsive, zero-bloat front-ends &mdash; fast on every device.</p></div>
+      <div><h5>POLISH</h5><p>Micro-interactions, motion and detail passes until it feels premium.</p></div>
+    </div>
+  </div>
+</section>
+<section id="sec-resume" class="sec">
+  <div class="secInner">
+    <h2>Resume</h2>
+    <div class="rblock"><h5>EDUCATION</h5><p><strong>B.Tech &mdash; Computer Science</strong><br>2022 &ndash; 2026 &middot; India</p></div>
+    <div class="rblock"><h5>PROJECTS</h5>
+      <p><strong>CityHelp</strong> &mdash; realtime civic issue reporting for Hyderabad. <a href="https://cityhelp-sage.vercel.app/" target="_blank" rel="noreferrer">Live &#8599;</a></p>
+      <p><strong>StayNest</strong> &mdash; curated global stays platform with booking-style UI. <a href="https://staynest-two.vercel.app/" target="_blank" rel="noreferrer">Live &#8599;</a></p>
+      <p><strong>ResumeForge</strong> &mdash; resume builder with a live ATS scoring engine. <a href="https://resumeforge-ruby-rho.vercel.app/" target="_blank" rel="noreferrer">Live &#8599;</a></p>
+    </div>
+    <div class="rblock"><h5>SKILLS</h5><p>UI/UX design &middot; Figma &middot; HTML/CSS/JavaScript &middot; GSAP &middot; responsive design &middot; prototyping &middot; user research &middot; cross-browser QA</p></div>
+    <div class="rblock"><h5>HIGHLIGHTS</h5><p>3 deployed products &middot; design-to-code ownership &middot; motion design focus &middot; fast learner, faster shipper</p></div>
+    <div class="rbtns"><a href="mailto:dlnarayana2005@gmail.com">EMAIL ME</a><a href="https://github.com/Rahul777111" target="_blank" rel="noreferrer">GITHUB &#8599;</a></div>
+  </div>
 </section>
 <p id="scrollHint">SCROLL</p>
 <div id="blackout"></div>
@@ -53,6 +85,7 @@
 <script src="js/name.js"></script>
 <script src="js/carousel.js"></script>
 <script src="js/overlay.js"></script>
+<script src="js/nav.js"></script>
 <script src="js/stage.js"></script>
 <script src="js/main.js"></script>
 </body>
