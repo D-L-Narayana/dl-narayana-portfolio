@@ -31,7 +31,7 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black
 #proj{position:fixed;inset:0;z-index:2;opacity:0;visibility:hidden}
 #headline{position:absolute;top:0;left:4vw;right:4vw;height:50%;display:flex;align-items:flex-end;flex-wrap:wrap;gap:2vh 6vw;padding-bottom:3vh;pointer-events:none}
 #ptitle{font-size:clamp(36px,6.7vh,92px);line-height:.88;letter-spacing:-.02em}
-.hlLine{display:block;overflow:hidden}
+.hlLine{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
 .hlIn{display:block}
 #pcredit{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.14em;opacity:.85;text-transform:uppercase}
 #pmeta{margin-left:auto;display:flex;gap:5vw;align-items:flex-end}
@@ -64,3 +64,5 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black
 .ovInner li::before{content:'\2014  '}
 .ovInner a{display:inline-block;font-family:Arial,sans-serif;font-size:13px;letter-spacing:.22em;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.7);padding:13px 26px;transition:background .25s,color .25s}
 .ovInner a:hover{background:#fff;color:#000}
+#name.rainbow span{background:linear-gradient(90deg,#ff5fae,#ffd166,#7cf5c1,#6ea8ff,#c17cff,#ff5fae);background-size:600% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;text-shadow:none;animation:rbflow 5s linear infinite}
+@keyframes rbflow{from{background-position:0% 50%}to{background-position:600% 50%}}
