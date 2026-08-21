@@ -16,15 +16,17 @@ var oc=document.createElement('canvas');oc.width=cols;oc.height=rows;
 var ox=oc.getContext('2d');ox.drawImage(imgEl,0,0,cols,rows);
 var d=ox.getImageData(0,0,cols,rows).data;
 parts=[];
-var cw=W/cols,chh=H/rows;
+var cw=W/cols,chh=H/rows,mx=1,i,L;
+for(i=0;i<d.length;i+=4){L=(d[i]+d[i+1]+d[i+2])/3;if(L>mx)mx=L;}
+var nf=255/mx;
 for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
-var i=(y*cols+x)*4,L=(d[i]+d[i+1]+d[i+2])/3;
-if(L<48)continue;
+i=(y*cols+x)*4;L=(d[i]+d[i+1]+d[i+2])/3*nf;
+if(L<56)continue;
 var a=Math.random()*Math.PI*2,r=(0.4+Math.random()*0.9)*Math.max(W,H);
 parts.push({tx:(x+0.5)*cw,ty:(y+0.5)*chh,
 sx:(x+0.5)*cw+Math.cos(a)*r,sy:(y+0.5)*chh+Math.sin(a)*r,
-ch:L>200?'@':L>160?'#':L>120?'*':L>85?'+':L>62?':':'.',
-o:Math.min(1,L/200),dl:Math.random()*0.5});}
+ch:L>210?'@':L>170?'#':L>130?'*':L>95?'+':L>70?':':'.',
+o:Math.min(1,L/180),dl:Math.random()*0.5});}
 ctx.font=Math.ceil(chh*1.02)+'px monospace';
 ctx.textAlign='center';ctx.textBaseline='middle';}
 function draw(now){
@@ -53,7 +55,7 @@ if(raf)cancelAnimationFrame(raf);
 raf=requestAnimationFrame(draw);}
 function boot(){
 var wrap=document.createElement('div');wrap.id='aboutStage';
-wrap.innerHTML='<canvas id="ascii"></canvas><div id="aboutCap">About &mdash; I design and build web experiences</div>';
+wrap.innerHTML='<div id="asciiPanel"><canvas id="ascii"></canvas></div><div id="aboutCap">About &mdash; I design and build web experiences</div>';
 document.body.appendChild(wrap);
 cv=document.getElementById('ascii');ctx=cv.getContext('2d',{desynchronized:true});
 imgEl=new Image();
