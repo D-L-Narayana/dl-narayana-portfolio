@@ -17,7 +17,7 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Archivo Black
 #topbar a{color:#fff;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;opacity:.9;cursor:pointer}
 #topbar a:hover{opacity:1}
 #tbBrand{font-size:13px;letter-spacing:.14em}
-#stage{position:fixed;inset:0;display:grid;place-items:center;z-index:3;pointer-events:none}
+#stage{position:fixed;inset:0;display:grid;place-items:center;z-index:25;pointer-events:none}
 #hello{grid-area:1/1;width:min(96vw,1250px);overflow:visible;filter:drop-shadow(0 0 22px rgba(239,64,86,.5))}
 .hl{font-family:'Caveat',cursive;font-weight:600;font-size:230px;fill:none}
 #hello tspan{stroke:#ef4056;stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2100;stroke-dashoffset:2100}
