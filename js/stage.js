@@ -4,30 +4,35 @@ function ez(p){return 1-Math.pow(1-p,3);}
 function ezi(p){return p*p*p;}
 function size(){
 DPR=Math.min(2,window.devicePixelRatio||1);
-var h=Math.min(window.innerHeight*0.42,430);
+var h=Math.min(window.innerHeight*0.46,470);
 var w=h*(imgEl.naturalWidth/imgEl.naturalHeight);
 if(w>window.innerWidth*0.86){w=window.innerWidth*0.86;h=w*imgEl.naturalHeight/imgEl.naturalWidth;}
 cv.style.width=Math.round(w)+'px';cv.style.height=Math.round(h)+'px';
 cv.width=Math.round(w*DPR);cv.height=Math.round(h*DPR);
 W=cv.width;H=cv.height;sample();}
 function sample(){
-var cols=100,rows=Math.round(cols*imgEl.naturalHeight/imgEl.naturalWidth);
-var oc=document.createElement('canvas');oc.width=cols;oc.height=rows;
-var ox=oc.getContext('2d');ox.drawImage(imgEl,0,0,cols,rows);
-var d=ox.getImageData(0,0,cols,rows).data;
+var cols=140,rows=Math.round(cols*imgEl.naturalHeight/imgEl.naturalWidth),SS=3;
+var oc=document.createElement('canvas');oc.width=cols*SS;oc.height=rows*SS;
+var ox=oc.getContext('2d');ox.drawImage(imgEl,0,0,cols*SS,rows*SS);
+var d=ox.getImageData(0,0,cols*SS,rows*SS).data;
 parts=[];
-var cw=W/cols,chh=H/rows,mx=1,i,L;
-for(i=0;i<d.length;i+=4){L=(d[i]+d[i+1]+d[i+2])/3;if(L>mx)mx=L;}
+var cw=W/cols,chh=H/rows,mx=1,i,L,x,y,ci;
+var cell=new Float32Array(cols*rows);
+for(y=0;y<rows*SS;y++)for(x=0;x<cols*SS;x++){
+i=(y*cols*SS+x)*4;L=(d[i]+d[i+1]+d[i+2])/3;
+ci=Math.floor(y/SS)*cols+Math.floor(x/SS);
+if(L>cell[ci])cell[ci]=L;}
+for(i=0;i<cell.length;i++)if(cell[i]>mx)mx=cell[i];
 var nf=255/mx;
-for(var y=0;y<rows;y++)for(var x=0;x<cols;x++){
-i=(y*cols+x)*4;L=(d[i]+d[i+1]+d[i+2])/3*nf;
-if(L<56)continue;
+for(y=0;y<rows;y++)for(x=0;x<cols;x++){
+L=cell[y*cols+x]*nf;
+if(L<44)continue;
 var a=Math.random()*Math.PI*2,r=(0.4+Math.random()*0.9)*Math.max(W,H);
 parts.push({tx:(x+0.5)*cw,ty:(y+0.5)*chh,
 sx:(x+0.5)*cw+Math.cos(a)*r,sy:(y+0.5)*chh+Math.sin(a)*r,
-ch:L>210?'@':L>170?'#':L>130?'*':L>95?'+':L>70?':':'.',
-o:Math.min(1,L/180),dl:Math.random()*0.5});}
-ctx.font=Math.ceil(chh*1.02)+'px monospace';
+ch:L>215?'@':L>175?'#':L>135?'*':L>95?'+':L>65?':':'.',
+o:Math.min(1,0.3+L/230),dl:Math.random()*0.5});}
+ctx.font=Math.ceil(chh*1.12)+'px monospace';
 ctx.textAlign='center';ctx.textBaseline='middle';}
 function draw(now){
 var el=(now-start)/1000,done=true,k,p,q,e;
@@ -66,7 +71,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 return{assemble:function(){play('in');},disperse:function(){play('out');}};
 })();
 window.Stage=(function(){
-var s=0,bw=0,bh=0,acc=0,until=0,ok=false,MAX=2;
+var s=0,bw=0,bh=0,acc=0,until=0,ok=false,MAX=3;
 function readyFn(){
 var nw=document.getElementById('nwrap');
 bw=nw.offsetWidth;bh=nw.offsetHeight;ok=true;
@@ -86,6 +91,13 @@ window.Ascii.assemble();}
 function exitAbout(){
 window.Ascii.disperse();
 gsap.to('#aboutStage',{opacity:0,duration:0.5,onComplete:function(){gsap.set('#aboutStage',{visibility:'hidden'});}});}
+function enterInfo(){
+document.body.className='theme-about';
+gsap.set('#sec-about',{visibility:'visible'});
+gsap.fromTo('#sec-about',{opacity:0,y:26},{opacity:1,y:0,duration:0.55,ease:'power2.out'});}
+function exitInfo(){
+document.body.className='';
+gsap.to('#sec-about',{opacity:0,duration:0.4,onComplete:function(){gsap.set('#sec-about',{visibility:'hidden'});}});}
 function enter(){
 if(!window.Carousel.built()){window.Carousel.build();}
 gsap.set('#proj',{visibility:'visible'});
@@ -99,8 +111,9 @@ if(n===s&&!force)return;
 var was=s;s=n;moveName();
 gsap.to('#scrollHint',{opacity:s===0?0.7:0,duration:0.4});
 if(s===1){enterAbout();}else if(was===1){exitAbout();}
+if(s===2){enterInfo();}else if(was===2){exitInfo();}
 if(s===MAX){enter();}else if(was===MAX){exitP();}
-if(window.Nav)window.Nav.sync(s===MAX?'projects':'home');}
+if(window.Nav)window.Nav.sync(s===MAX?'projects':s===2?'about':'home');}
 function route(delta,ts){
 if(window.Overlay.isOpen()){window.Overlay.wheel(delta);return;}
 if(!ok)return;
@@ -114,9 +127,7 @@ else{
 if(dir>0){window.Carousel.next();}
 else{if(!window.Carousel.prev())set(MAX-1);}}}
 function navBlocked(){
-if(!window.Nav)return false;
-var m=window.Nav.mode();
-return m==='about'||m==='resume';}
+return !!(window.Nav&&window.Nav.blocked&&window.Nav.blocked());}
 window.addEventListener('wheel',function(e){
 if(navBlocked())return;
 e.preventDefault();
