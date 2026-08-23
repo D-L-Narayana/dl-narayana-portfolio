@@ -104,7 +104,7 @@ body.theme-resume #pinkbg{filter:hue-rotate(165deg) saturate(.78)}
 .aboutTop{display:flex;gap:4vw;flex-wrap:wrap;align-items:flex-start;margin-bottom:36px}
 .aboutIntro{flex:1 1 360px;min-width:290px}
 .asciiWrap{flex:0 0 auto;max-width:100%;overflow:auto;background:rgba(0,0,0,.38);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:16px}
-#asciiPre{font-family:'Courier New',monospace;font-size:6px;line-height:6.5px;letter-spacing:0;white-space:pre;background-image:url(../assets/me.jpg);background-size:100% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:contrast(1.1) saturate(1.2) brightness(1.08)}
+#asciiPre{font-family:'Courier New',monospace;font-size:6px;line-height:6.5px;letter-spacing:0;white-space:pre;color:#c9c9d2;text-shadow:0 0 2px rgba(255,255,255,.1)}
 .asciiCap{font-family:'Courier New',monospace!important;font-size:10px!important;letter-spacing:.25em;opacity:.6;margin:12px 0 0!important;text-align:center;max-width:none!important}
 .subhead{font-family:'Courier New',monospace;font-size:15px;letter-spacing:.04em;opacity:.9;margin:38px 0 18px;font-weight:400}
 .techRow{display:flex;gap:34px;align-items:center;flex-wrap:wrap;margin-bottom:10px;perspective:600px}
