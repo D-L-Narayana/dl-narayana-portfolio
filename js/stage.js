@@ -77,7 +77,8 @@ var nw=document.getElementById('nwrap');
 bw=nw.offsetWidth;bh=nw.offsetHeight;ok=true;
 gsap.to('#scrollHint',{opacity:0.7,duration:0.6});
 gsap.set('#nav',{visibility:'visible'});
-gsap.to('#nav',{opacity:1,duration:0.7,ease:'power2.out'});}
+gsap.to('#nav',{opacity:1,duration:0.7,ease:'power2.out'});
+window.Extras.homeUi(true);}
 function moveName(){
 var t=Math.min(1,s),sc=1-0.66*t;
 var tx=(-(window.innerWidth/2)+(bw*0.34)/2+34)*t;
@@ -110,8 +111,7 @@ n=Math.max(0,Math.min(MAX,n));
 if(n===s&&!force)return;
 var was=s;s=n;moveName();
 gsap.to('#scrollHint',{opacity:s===0?0.7:0,duration:0.4});
-if(s===1){enterAbout();}else if(was===1){exitAbout();}
-if(s===2){enterInfo();}else if(was===2){exitInfo();}
+window.Extras.homeUi(s===0);
 if(s===MAX){enter();}else if(was===MAX){exitP();}
 if(window.Nav)window.Nav.sync(s===MAX?'projects':s===2?'about':'home');}
 function route(delta,ts){
