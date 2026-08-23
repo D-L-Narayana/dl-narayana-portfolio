@@ -1,10 +1,5 @@
-node_modules
-shots
 e2e.js
-e2e-focus.js
-e2e-about.js
-shots.js
-package.json
-package-lock.json
-.gitignore_extra
+shots
+v.log
 README.md
+.gitignore
