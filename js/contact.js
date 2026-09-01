@@ -57,7 +57,7 @@ root.innerHTML='<canvas id="ctBg"></canvas>'+
 '<div id="ctCta"><h2>Have an idea?<br>Let&rsquo;s build it.</h2>'+
 '<div id="ctBtns">'+
 '<a class="btnShiny" href="mailto:nvr0910@gmail.com"><span>Email Me</span></a>'+
-'<a class="btnGrad" href="https://github.com/Rahul777111" target="_blank" rel="noopener">GitHub</a>'+
+'<a class="btnGrad" href="https://github.com/D-L-Narayana" target="_blank" rel="noopener">GitHub</a>'+
 '<button type="button" class="btnGlass" data-act="resume"><i></i><span>My Resume</span></button>'+
 '</div></div>'+
 '<div id="ctChat"><div class="chHead">ASK MY PORTFOLIO</div><div class="chLog"></div>'+
@@ -65,7 +65,7 @@ root.innerHTML='<canvas id="ctBg"></canvas>'+
 '</div>'+
 '<div id="ctDock">'+
 '<button type="button" class="dkPill" data-act="home">HOME</button>'+
-'<a class="dkBtn" href="https://github.com/Rahul777111" target="_blank" rel="noopener" aria-label="GitHub">GH</a>'+
+'<a class="dkBtn" href="https://github.com/D-L-Narayana" target="_blank" rel="noopener" aria-label="GitHub">GH</a>'+
 '<a class="dkBtn" href="mailto:nvr0910@gmail.com" aria-label="Email">&#9993;</a>'+
 '<button type="button" class="dkBtn" data-act="share" aria-label="Copy link">&#8599;</button>'+
 '<button type="button" class="dkBtn" data-act="heart" aria-label="Like">&#9825;</button>'+
