@@ -71,7 +71,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
 return{assemble:function(){play('in');},disperse:function(){play('out');}};
 })();
 window.Stage=(function(){
-var s=0,bw=0,bh=0,acc=0,until=0,ok=false,MAX=3;
+var s=0,bw=0,bh=0,acc=0,until=0,ok=false,MAX=4;
 function readyFn(){
 var nw=document.getElementById('nwrap');
 bw=nw.offsetWidth;bh=nw.offsetHeight;ok=true;
@@ -112,8 +112,9 @@ var was=s;s=n;moveName();
 gsap.to('#scrollHint',{opacity:s===0?0.7:0,duration:0.4});
 if(s===1){enterAbout();}else if(was===1){exitAbout();}
 if(s===2){enterInfo();}else if(was===2){exitInfo();}
-if(s===MAX){enter();}else if(was===MAX){exitP();}
-if(window.Nav)window.Nav.sync(s===MAX?'projects':s===2?'about':'home');}
+if(s===3){enter();}else if(was===3){exitP();}
+if(s===4){window.Contact.show();}else if(was===4){window.Contact.hide();}
+if(window.Nav)window.Nav.sync(s===4?'contact':s===3?'projects':s===2?'about':'home');}
 function route(delta,ts){
 if(window.Overlay.isOpen()){window.Overlay.wheel(delta);return;}
 if(!ok)return;
@@ -122,10 +123,10 @@ if(now<until)return;
 acc+=delta;
 if(Math.abs(acc)<60)return;
 var dir=acc>0?1:-1;acc=0;until=now+620;
-if(s<MAX){set(s+dir);}
-else{
-if(dir>0){window.Carousel.next();}
-else{if(!window.Carousel.prev())set(MAX-1);}}}
+if(s===3){
+if(dir>0){if(!window.Carousel.next())set(4);}
+else{if(!window.Carousel.prev())set(2);}}
+else{set(s+dir);}}
 function navBlocked(){
 return !!(window.Nav&&window.Nav.blocked&&window.Nav.blocked());}
 window.addEventListener('wheel',function(e){
@@ -143,7 +144,7 @@ var y=e.touches[0].clientY;
 route((ly-y)*2,e.timeStamp);ly=y;
 },{passive:false});
 window.addEventListener('keydown',function(e){
-if(s===MAX&&!navBlocked()&&!window.Overlay.isOpen()){
+if(s===3&&!navBlocked()&&!window.Overlay.isOpen()){
 if(e.key==='ArrowRight')window.Carousel.next();
 if(e.key==='ArrowLeft'){if(!window.Carousel.prev())set(MAX-1);}}});
 window.addEventListener('resize',function(){if(s>0)moveName();});

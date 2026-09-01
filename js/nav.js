@@ -16,6 +16,7 @@ gsap.to('#stage',{opacity:0,duration:0.35});
 gsap.to('#scrollHint',{opacity:0,duration:0.3});
 gsap.to('#proj',{opacity:0,duration:0.35,onComplete:function(){gsap.set('#proj',{visibility:'hidden'});}});
 gsap.to('#aboutStage',{opacity:0,duration:0.3,onComplete:function(){gsap.set('#aboutStage',{visibility:'hidden'});}});
+if(window.Contact)window.Contact.hide();
 secs.forEach(function(x){if(x!==m)gsap.set('#sec-'+x,{opacity:0,visibility:'hidden'});});
 gsap.set('#sec-'+m,{visibility:'visible'});
 gsap.fromTo('#sec-'+m,{opacity:0,y:26},{opacity:1,y:0,duration:0.55,ease:'power2.out'});
@@ -25,7 +26,7 @@ mode=m;paint();
 secs.forEach(function(x){gsap.set('#sec-'+x,{opacity:0,visibility:'hidden'});});
 document.body.className='';
 gsap.to('#stage',{opacity:1,duration:0.4});
-ov=false;window.Stage.set(m==='projects'?3:0,true);}}
+ov=false;window.Stage.set(m==='projects'?3:m==='contact'?4:0,true);}}
 function init(){
 document.querySelectorAll('.navItem').forEach(function(b){
 b.addEventListener('click',function(){open(b.dataset.m);});});}
