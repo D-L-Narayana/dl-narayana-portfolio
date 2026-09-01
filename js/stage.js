@@ -76,6 +76,7 @@ function readyFn(){
 var nw=document.getElementById('nwrap');
 bw=nw.offsetWidth;bh=nw.offsetHeight;ok=true;
 gsap.to('#scrollHint',{opacity:0.7,duration:0.6});
+if(document.getElementById('corridor'))gsap.to('#corridor',{autoAlpha:1,duration:1.2,delay:0.25});
 gsap.set('#nav',{visibility:'visible'});
 gsap.to('#nav',{opacity:1,duration:0.7,ease:'power2.out'});}
 function moveName(){

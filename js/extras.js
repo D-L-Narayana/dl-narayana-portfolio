@@ -4,6 +4,7 @@ var st=document.getElementById('stage');
 if(!st||document.getElementById('corridor'))return;
 var cor=document.createElement('div');cor.id='corridor';
 st.insertBefore(cor,st.firstChild);
+gsap.set(cor,{autoAlpha:0});
 var imgs=['assets/cityhelp.jpg','assets/staynest.jpg','assets/resumeforge.jpg','assets/ascii.jpg'];
 for(var i=0;i<4;i++){
 [['L',imgs[i]],['R',imgs[3-i]]].forEach(function(side){
