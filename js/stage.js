@@ -83,7 +83,8 @@ function moveName(){
 var t=Math.min(1,s),sc=1-0.66*t;
 var tx=(-(window.innerWidth/2)+(bw*0.34)/2+34)*t;
 var ty=((window.innerHeight/2)-(bh*0.34)/2-46)*t;
-gsap.to('#nwrap',{x:tx,y:ty,scale:sc,duration:1.15,ease:'power3.inOut'});}
+if(s===0){gsap.to('#nwrap',{autoAlpha:0,duration:0.4});}
+else{gsap.set('#nwrap',{visibility:'visible'});gsap.to('#nwrap',{autoAlpha:1,x:tx,y:ty,scale:sc,duration:1.15,ease:'power3.inOut'});}}
 function enterAbout(){
 gsap.set('#aboutStage',{visibility:'visible'});
 gsap.to('#aboutStage',{opacity:1,duration:0.6,ease:'power2.out'});
@@ -120,6 +121,7 @@ n=Math.max(0,Math.min(MAX,n));
 if(n===s&&!force)return;
 var was=s;s=n;moveName();
 gsap.to('#scrollHint',{opacity:s===0?0.7:0,duration:0.4});
+if(s===0){window.Slider.show();}else if(was===0){window.Slider.hide();}
 if(s===1){enterAbout();}else if(was===1){exitAbout();}
 if(s===2){enterInfo();}else if(was===2){exitInfo();}
 if(s===3){enter();}else if(was===3){exitP();}
