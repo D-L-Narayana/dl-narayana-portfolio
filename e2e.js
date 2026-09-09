@@ -5,7 +5,7 @@ const p=await b.newPage({viewport:{width:1280,height:800}});
 const errs=[];
 p.on('pageerror',e=>errs.push('PAGE:'+e.message));
 p.on('console',m=>{if(m.type()==='error')errs.push('CON:'+m.text());});
-await p.goto('http://localhost:8099/',{waitUntil:'domcontentloaded'});
+await p.goto('http://localhost:8100/',{waitUntil:'domcontentloaded'});
 await p.waitForTimeout(900);
 await p.screenshot({path:'shots/z0-loader.png'});
 await p.waitForTimeout(3200);

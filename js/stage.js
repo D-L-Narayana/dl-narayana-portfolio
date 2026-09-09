@@ -76,7 +76,6 @@ function readyFn(){
 var nw=document.getElementById('nwrap');
 bw=nw.offsetWidth;bh=nw.offsetHeight;ok=true;
 gsap.to('#scrollHint',{opacity:0.7,duration:0.6});
-if(document.getElementById('corridor'))gsap.to('#corridor',{autoAlpha:1,duration:1.2,delay:0.25});
 gsap.set('#nav',{visibility:'visible'});
 gsap.to('#nav',{opacity:1,duration:0.7,ease:'power2.out'});}
 function moveName(){
@@ -127,7 +126,7 @@ if(s===2){enterInfo();}else if(was===2){exitInfo();}
 if(s===3){enter();}else if(was===3){exitP();}
 if(s===4){enterRes();}else if(was===4){exitRes();}
 if(s===5){window.Contact.show();}else if(was===5){window.Contact.hide();}
-if(document.getElementById('corridor'))gsap.to('#corridor',{autoAlpha:s===0?1:0,duration:0.7});
+if(document.getElementById('corridor'))gsap.set('#corridor',{autoAlpha:0});
 if(window.Nav)window.Nav.sync(s===5?'contact':s===4?'resume':s===3?'projects':s===2?'about':'home');}
 function route(delta,ts){
 if(window.Overlay.isOpen()){window.Overlay.wheel(delta);return;}
