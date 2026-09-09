@@ -82,8 +82,7 @@ function moveName(){
 var t=Math.min(1,s),sc=1-0.66*t;
 var tx=(-(window.innerWidth/2)+(bw*0.34)/2+34)*t;
 var ty=((window.innerHeight/2)-(bh*0.34)/2-46)*t;
-if(s===0){gsap.to('#nwrap',{autoAlpha:0,duration:0.4});}
-else{gsap.set('#nwrap',{visibility:'visible'});gsap.to('#nwrap',{autoAlpha:1,x:tx,y:ty,scale:sc,duration:1.15,ease:'power3.inOut'});}}
+gsap.to('#nwrap',{autoAlpha:1,x:tx,y:ty,scale:sc,duration:1.15,ease:'power3.inOut'});}
 function enterAbout(){
 gsap.set('#aboutStage',{visibility:'visible'});
 gsap.to('#aboutStage',{opacity:1,duration:0.6,ease:'power2.out'});
@@ -120,13 +119,12 @@ n=Math.max(0,Math.min(MAX,n));
 if(n===s&&!force)return;
 var was=s;s=n;moveName();
 gsap.to('#scrollHint',{opacity:s===0?0.7:0,duration:0.4});
-if(s===0){window.Slider.show();}else if(was===0){window.Slider.hide();}
 if(s===1){enterAbout();}else if(was===1){exitAbout();}
 if(s===2){enterInfo();}else if(was===2){exitInfo();}
 if(s===3){enter();}else if(was===3){exitP();}
 if(s===4){enterRes();}else if(was===4){exitRes();}
 if(s===5){window.Contact.show();}else if(was===5){window.Contact.hide();}
-if(document.getElementById('corridor'))gsap.set('#corridor',{autoAlpha:0});
+if(document.getElementById('corridor'))gsap.to('#corridor',{autoAlpha:s===0?1:0,duration:0.7});
 if(window.Nav)window.Nav.sync(s===5?'contact':s===4?'resume':s===3?'projects':s===2?'about':'home');}
 function route(delta,ts){
 if(window.Overlay.isOpen()){window.Overlay.wheel(delta);return;}
