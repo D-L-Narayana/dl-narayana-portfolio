@@ -1,12 +1,12 @@
 import { TransitionLink } from '@/components/providers/Transition';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { featured, stats } from '@/lib/github';
-import { ProjectRow } from './ProjectRow';
+import { featured, stats, toStackProject } from '@/lib/github';
+import { ProjectStack } from './ProjectStack';
 
 export function FeaturedWork() {
   return (
-    <section id="work" className="section" aria-labelledby="work-title">
-      <div className="container">
+    <section id="work" className="section !pb-0" aria-labelledby="work-title">
+      <div className="shell">
         <SectionHeader
           index="01"
           eyebrow="Selected work"
@@ -18,17 +18,13 @@ export function FeaturedWork() {
           aside={
             <p className="text-muted">
               Every card is a public repository with its own README, tests and, where it makes sense, a live deployment.{' '}
-              <TransitionLink href="/work/" className="link-underline text-text">
+              <TransitionLink href="/work/" className="link-underline text-text" label="Work">
                 All {stats.publicRepos} projects →
               </TransitionLink>
             </p>
           }
         />
-        <div>
-          {featured.map((p, i) => (
-            <ProjectRow key={p.slug} project={p} index={i} flip={i % 2 === 1} fetchedAt={stats.fetchedAt} priority={i === 0} />
-          ))}
-        </div>
+        <ProjectStack projects={featured.map(toStackProject)} fetchedAt={stats.fetchedAt} />
       </div>
     </section>
   );

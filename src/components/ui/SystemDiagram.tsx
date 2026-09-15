@@ -8,13 +8,17 @@ import type { Diagram } from '@/data/projects';
  * Architecture drawn from the README's stage list: boxes on a rail, a branch for quarantine/blocked
  * paths, an orchestrator caption. Paths draw in on view (pathLength — a transform-free SVG property).
  */
-/** Readable at any width: the SVG schematic on wide layouts, a chip flow on narrow ones. */
-export function SystemDiagram({ diagram, title, compact = false }: { diagram: Diagram; title: string; compact?: boolean }) {
+type Props = { diagram: Diagram; title: string; compact?: boolean; variant?: 'horizontal' | 'vertical'; ratio?: number };
+
+/** Readable at any width: the SVG schematic on wide layouts (horizontal rail, or a vertical rail for
+ *  tall containers), a chip flow on narrow ones. `ratio` sets the horizontal viewBox aspect so the
+ *  drawing fills its box exactly (16/10 by default, 21/10 on case-study heroes). */
+export function SystemDiagram({ diagram, title, compact = false, variant = 'horizontal', ratio = 16 / 10 }: Props) {
   if (compact) return <ChipFlow diagram={diagram} title={title} />;
   return (
     <>
       <div className="hidden h-full w-full md:block">
-        <SchematicSvg diagram={diagram} title={title} />
+        {variant === 'vertical' ? <VerticalSvg diagram={diagram} title={title} /> : <SchematicSvg diagram={diagram} title={title} ratio={ratio} />}
       </div>
       <div className="h-full w-full md:hidden">
         <ChipFlow diagram={diagram} title={title} />
@@ -53,15 +57,15 @@ function ChipFlow({ diagram, title }: { diagram: Diagram; title: string }) {
   );
 }
 
-function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
+function SchematicSvg({ diagram, title, ratio }: { diagram: Diagram; title: string; ratio: number }) {
   const n = diagram.stages.length;
   const W = 1200;
-  const H = 750;
-  const padX = 48;
-  const boxW = Math.min(150, (W - padX * 2) / n - 20);
+  const H = Math.round(W / ratio);
+  const padX = 56;
+  const boxW = Math.min(164, (W - padX * 2) / n - 16);
   const gap = (W - padX * 2 - boxW * n) / (n - 1);
-  const railY = H * 0.46;
-  const boxH = 64;
+  const railY = H * 0.42;
+  const boxH = 92;
   const xs = diagram.stages.map((_, i) => padX + i * (boxW + gap));
   const branchIndex = diagram.branch?.from ?? -1;
   const goldIndex = n - 1;
@@ -95,14 +99,14 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
         y1={railY}
         y2={railY}
         stroke="var(--border-strong)"
-        strokeWidth="2"
+        strokeWidth="2.5"
         variants={{ hidden: { pathLength: 0, opacity: 0 }, show: { pathLength: 1, opacity: 1, transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } } }}
       />
       {/* moving events on the rail — translate-only, rendered only while in view */}
       {inView &&
         [0, 1, 2, 3, 4].map((k) => (
           <motion.g key={k} initial={{ x: 0, opacity: 0 }} animate={{ x: [0, xs[n - 1] - xs[0] - boxW], opacity: [0, 1, 1, 0] }} transition={{ duration: 6, ease: 'linear', repeat: Infinity, delay: k * 1.2 }}>
-            <circle r="4" cx={xs[0] + boxW} cy={railY} fill="var(--accent)" />
+            <circle r="5" cx={xs[0] + boxW} cy={railY} fill="var(--accent)" />
           </motion.g>
         ))}
 
@@ -110,7 +114,7 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
       {diagram.branch && branchIndex >= 0 && (
         <g>
           <motion.path
-            d={`M ${xs[branchIndex] + boxW / 2} ${railY + boxH / 2} C ${xs[branchIndex] + boxW / 2} ${railY + 140}, ${xs[branchIndex] + boxW / 2 + 60} ${railY + 150}, ${xs[branchIndex] + boxW / 2 + 90} ${railY + 170}`}
+            d={`M ${xs[branchIndex] + boxW / 2} ${railY + boxH / 2} C ${xs[branchIndex] + boxW / 2} ${railY + 170}, ${xs[branchIndex] + boxW / 2 + 60} ${railY + 180}, ${xs[branchIndex] + boxW / 2 + 90} ${railY + 200}`}
             fill="none"
             stroke="var(--text-faint)"
             strokeWidth="2"
@@ -118,8 +122,8 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
             variants={{ hidden: { pathLength: 0, opacity: 0 }, show: { pathLength: 1, opacity: 1, transition: { duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] } } }}
           />
           <motion.g variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 1.3 } } }}>
-            <rect x={xs[branchIndex] + boxW / 2 + 90} y={railY + 150} width="150" height="40" rx="8" fill="var(--surface)" stroke="var(--border-strong)" strokeDasharray="4 6" />
-            <text x={xs[branchIndex] + boxW / 2 + 165} y={railY + 175} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="15" fill="var(--text-muted)">
+            <rect x={xs[branchIndex] + boxW / 2 + 90} y={railY + 178} width="190" height="50" rx="10" fill="var(--surface)" stroke="var(--border-strong)" strokeDasharray="4 6" />
+            <text x={xs[branchIndex] + boxW / 2 + 185} y={railY + 209} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="17" fill="var(--text-muted)">
               {diagram.branch.label}
             </text>
           </motion.g>
@@ -132,10 +136,10 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
         return (
           <motion.g key={s} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { delay: 0.15 + i * 0.12, type: 'spring', stiffness: 200, damping: 26 } } }}>
             <rect x={xs[i]} y={railY - boxH / 2} width={boxW} height={boxH} rx="12" fill={gold ? 'var(--accent)' : 'var(--surface)'} stroke={gold ? 'var(--accent)' : 'var(--border-strong)'} strokeWidth="1.5" />
-            <text x={xs[i] + boxW / 2} y={railY + 6} textAnchor="middle" fontFamily="var(--font-sans)" fontWeight="600" fontSize={boxW < 120 ? 14 : boxW < 150 ? 15 : 17} fill={gold ? 'var(--on-accent)' : 'var(--text)'}>
+            <text x={xs[i] + boxW / 2} y={railY + 7} textAnchor="middle" fontFamily="var(--font-sans)" fontWeight="600" fontSize={boxW < 130 ? 17 : boxW < 160 ? 19 : 21} fill={gold ? 'var(--on-accent)' : 'var(--text)'}>
               {s}
             </text>
-            <text x={xs[i] + boxW / 2} y={railY - boxH / 2 - 14} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="13" fill="var(--text-faint)">
+            <text x={xs[i] + boxW / 2} y={railY - boxH / 2 - 18} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="15" fill="var(--text-faint)">
               {String(i + 1).padStart(2, '0')}
             </text>
           </motion.g>
@@ -143,13 +147,104 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
       })}
 
       {diagram.orchestrator && (
-        <motion.text x={W - padX} y={H - 40} textAnchor="end" fontFamily="var(--font-mono)" fontSize="15" fill="var(--text-muted)" variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 1.2 } } }}>
+        <motion.text x={W - padX} y={H - 44} textAnchor="end" fontFamily="var(--font-mono)" fontSize="17" fill="var(--text-muted)" variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 1.2 } } }}>
           {diagram.orchestrator}
         </motion.text>
       )}
-      <text x={padX} y={H - 40} fontFamily="var(--font-mono)" fontSize="15" fill="var(--text-muted)">
+      <text x={padX} y={H - 44} fontFamily="var(--font-mono)" fontSize="17" fill="var(--text-muted)">
         {title} · architecture
       </text>
+    </motion.svg>
+  );
+}
+
+
+/** Tall containers (the stacked home cards): stages descend a central rail, the branch peels off to
+ *  the right, events fall down the rail. Cropping is safe on the sides (nothing lives there). */
+function VerticalSvg({ diagram, title }: { diagram: Diagram; title: string }) {
+  const n = diagram.stages.length;
+  const W = 700;
+  const H = 800;
+  const boxW = 250;
+  const boxH = 66;
+  const top = 128;
+  const bottom = 700;
+  const step = (bottom - top - boxH) / (n - 1);
+  const cx = diagram.branch ? 270 : W / 2;
+  const ys = diagram.stages.map((_, i) => top + i * step);
+  const branchIndex = diagram.branch?.from ?? -1;
+  const goldIndex = n - 1;
+  const ref = useRef<SVGSVGElement>(null);
+  const pid = `vgrid-${title.replace(/\W+/g, '-').toLowerCase()}`;
+  const inView = useInView(ref, { margin: '0px' });
+  const railLen = ys[n - 1] - (ys[0] + boxH);
+
+  return (
+    <motion.svg
+      ref={ref}
+      viewBox={`0 0 ${W} ${H}`}
+      preserveAspectRatio="xMidYMid slice"
+      role="img"
+      aria-label={`${title} architecture: ${diagram.stages.join(' → ')}${diagram.branch ? `, with a ${diagram.branch.label.toLowerCase()} branch` : ''}`}
+      className="h-full w-full"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.4 }}
+    >
+      <defs>
+        <pattern id={pid} width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M40 0H0V40" fill="none" stroke="var(--border)" strokeWidth="1" />
+        </pattern>
+      </defs>
+      <rect width={W} height={H} fill="var(--surface-2)" />
+      <rect width={W} height={H} fill={`url(#${pid})`} opacity="0.7" />
+      <motion.line x1={cx} x2={cx} y1={ys[0] + boxH} y2={ys[n - 1]} stroke="var(--border-strong)" strokeWidth="2.5" variants={{ hidden: { pathLength: 0, opacity: 0 }, show: { pathLength: 1, opacity: 1, transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } } }} />
+      {inView &&
+        [0, 1, 2, 3].map((k) => (
+          <motion.g key={k} initial={{ y: 0, opacity: 0 }} animate={{ y: [0, railLen], opacity: [0, 1, 1, 0] }} transition={{ duration: 5, ease: 'linear', repeat: Infinity, delay: k * 1.25 }}>
+            <circle r="5" cx={cx} cy={ys[0] + boxH} fill="var(--accent)" />
+          </motion.g>
+        ))}
+      {diagram.branch && branchIndex >= 0 && (
+        <g>
+          <motion.path
+            d={`M ${cx + boxW / 2} ${ys[branchIndex] + boxH / 2} C ${cx + boxW / 2 + 90} ${ys[branchIndex] + boxH / 2}, ${cx + boxW / 2 + 90} ${ys[branchIndex] + boxH / 2 + step}, ${cx + boxW / 2 + 60} ${ys[branchIndex] + boxH / 2 + step + 40}`}
+            fill="none"
+            stroke="var(--text-faint)"
+            strokeWidth="2"
+            strokeDasharray="6 8"
+            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: { pathLength: 1, opacity: 1, transition: { duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] } } }}
+          />
+          <motion.g variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 1.3 } } }}>
+            <rect x={cx + boxW / 2 + 40} y={ys[branchIndex] + boxH / 2 + step + 40} width="190" height="48" rx="10" fill="var(--surface)" stroke="var(--border-strong)" strokeDasharray="4 6" />
+            <text x={cx + boxW / 2 + 135} y={ys[branchIndex] + boxH / 2 + step + 70} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="16" fill="var(--text-muted)">
+              {diagram.branch.label}
+            </text>
+          </motion.g>
+        </g>
+      )}
+      {diagram.stages.map((s, i) => {
+        const gold = i === goldIndex;
+        return (
+          <motion.g key={s} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { delay: 0.15 + i * 0.12, type: 'spring', stiffness: 200, damping: 26 } } }}>
+            <rect x={cx - boxW / 2} y={ys[i]} width={boxW} height={boxH} rx="12" fill={gold ? 'var(--accent)' : 'var(--surface)'} stroke={gold ? 'var(--accent)' : 'var(--border-strong)'} strokeWidth="1.5" />
+            <text x={cx} y={ys[i] + boxH / 2 + 7} textAnchor="middle" fontFamily="var(--font-sans)" fontWeight="600" fontSize="20" fill={gold ? 'var(--on-accent)' : 'var(--text)'}>
+              {s}
+            </text>
+            <text x={cx - boxW / 2 - 22} y={ys[i] + boxH / 2 + 5} textAnchor="end" fontFamily="var(--font-mono)" fontSize="15" fill="var(--text-faint)">
+              {String(i + 1).padStart(2, '0')}
+            </text>
+          </motion.g>
+        );
+      })}
+      <text x={W / 2} y={60} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="16" fill="var(--text-muted)">
+        {title} · architecture
+      </text>
+      {diagram.orchestrator && (
+        <motion.text x={W / 2} y={H - 40} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="16" fill="var(--text-muted)" variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 1.2 } } }}>
+          {diagram.orchestrator}
+        </motion.text>
+      )}
     </motion.svg>
   );
 }

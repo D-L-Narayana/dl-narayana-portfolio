@@ -1,11 +1,16 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import type { CSSProperties } from 'react';
 import { TransitionLink } from '@/components/providers/Transition';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { Picture } from '@/components/ui/Picture';
-import type { CSSProperties } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { SystemDiagram } from '@/components/ui/SystemDiagram';
+import { ChapterNav } from '@/components/work/ChapterNav';
+import { CountUp } from '@/components/work/CountUp';
+import { NextProject } from '@/components/work/NextProject';
+import { site } from '@/data/content';
+import { notes } from '@/data/notes';
 import { CATEGORY_LABEL } from '@/data/projects';
 import { allProjects, projectBySlug, stats } from '@/lib/github';
 import { formatDate, relative } from '@/lib/format';
@@ -29,6 +34,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   };
 }
 
+const CHAPTERS = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'problem', label: 'Problem' },
+  { id: 'approach', label: 'Approach' },
+  { id: 'results', label: 'Results' },
+  { id: 'stack', label: 'Stack' },
+];
+
 export default async function ProjectPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const p = projectBySlug(slug);
@@ -36,6 +49,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const i = allProjects.findIndex((x) => x.slug === p.slug);
   const prev = allProjects[(i - 1 + allProjects.length) % allProjects.length];
   const next = allProjects[(i + 1) % allProjects.length];
+  const related = notes.filter((n) => n.project === p.slug);
+  const isDiagram = !p.image && !!p.diagram;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -44,19 +59,33 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
     description: p.tagline,
     codeRepository: p.repoUrl,
     programmingLanguage: p.language ?? undefined,
-    author: { '@type': 'Person', name: 'D L Narayana' },
+    author: { '@type': 'Person', name: site.name, url: site.url },
+    dateCreated: p.createdAt ?? undefined,
     dateModified: p.pushedAt ?? undefined,
     url: p.liveUrl ?? p.repoUrl,
+    keywords: p.stack.join(', '),
+  };
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'Work', item: `${site.url}/work/` },
+      { '@type': 'ListItem', position: 3, name: p.title, item: `${site.url}/work/${p.slug}/` },
+    ],
   };
 
   return (
     <article className="pt-32 md:pt-40">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <header className="container">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+
+      <header className="shell" id="overview">
         <div className="hairline pt-8 md:pt-10">
-          <Reveal>
+          {/* CSS-animated (not Motion) so the LCP text never waits for hydration */}
+          <div className="fade-rise" style={{ '--d': '40ms' } as CSSProperties}>
             <p className="eyebrow mb-6 flex flex-wrap items-center gap-3">
-              <TransitionLink href="/work/" className="link-underline text-muted hover:text-text">
+              <TransitionLink href="/work/" className="link-underline text-muted hover:text-text" label="Work">
                 Work
               </TransitionLink>
               <span aria-hidden>/</span>
@@ -66,8 +95,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             </p>
             <h1 className="display">{p.title}</h1>
             <p className="lead mt-8 max-w-[40em]">{p.tagline}</p>
-          </Reveal>
-          <Reveal delay={0.1} className="mt-10 grid gap-x-8 gap-y-6 md:grid-cols-12">
+          </div>
+          <div className="fade-rise mt-10 grid gap-x-8 gap-y-6 md:grid-cols-12" style={{ '--d': '160ms' } as CSSProperties}>
             <dl className="grid grid-cols-2 gap-6 text-sm md:col-span-8 md:grid-cols-4">
               <Meta k="Role" v="Solo — design, engineering, deployment" />
               <Meta k="Language" v={p.languageShare.length ? p.languageShare.map((l) => `${l.name} ${l.pct}%`).slice(0, 2).join(' · ') : (p.language ?? '—')} />
@@ -77,58 +106,96 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             <div className="flex flex-wrap items-start gap-3 md:col-span-4 md:justify-end">
               {p.liveUrl && (
                 <Magnetic>
-                  <a href={p.liveUrl} target="_blank" rel="noreferrer" className="btn btn-primary">
+                  <a href={p.liveUrl} target="_blank" rel="noreferrer" className="btn btn-primary" data-track={`live-${p.slug}`}>
                     Live demo <span className="arrow" aria-hidden>↗</span>
                   </a>
                 </Magnetic>
               )}
               <Magnetic>
-                <a href={p.repoUrl} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                <a href={p.repoUrl} target="_blank" rel="noreferrer" className="btn btn-ghost" data-track={`source-${p.slug}`}>
                   Source <span className="arrow" aria-hidden>↗</span>
                 </a>
               </Magnetic>
             </div>
-          </Reveal>
+          </div>
         </div>
       </header>
 
-      <Reveal className="container mt-12 md:mt-16">
-        <div className="media aspect-[16/10]">
-          {p.image ? <Picture base={p.image} alt={`${p.title} — screenshot of the live product`} priority sizes="(min-width: 1280px) 1280px, 100vw" className="h-full w-full" /> : p.diagram ? <SystemDiagram diagram={p.diagram} title={p.title} /> : null}
+      <div className="shell mt-12 md:mt-16">
+        <div data-reveal="clip" className={`media ${isDiagram ? 'aspect-[16/10] md:aspect-[21/10]' : 'aspect-[16/10]'}`}>
+          {p.image ? <Picture base={p.image} alt={`${p.title} — screenshot of the live product`} priority sizes="(min-width: 1360px) 1360px, 100vw" className="h-full w-full" /> : p.diagram ? <SystemDiagram diagram={p.diagram} title={p.title} ratio={21 / 10} /> : null}
         </div>
-      </Reveal>
+      </div>
 
-      <div className="container mt-16 grid gap-16 md:mt-24 md:grid-cols-12">
-        <div className="md:col-span-7">
+      {/* At a glance — the results as a ledger strip */}
+      <div className="shell mt-10 md:mt-14">
+        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-4" aria-label="At a glance">
+          {p.results.slice(0, 4).map((m, k) => (
+            <div key={m.label} data-reveal style={{ '--i': k } as CSSProperties} className="flex flex-col bg-surface p-5 md:p-7">
+              <dt className="order-2 mt-2 text-sm text-muted">{m.label}</dt>
+              <dd className="order-1 num font-display text-[clamp(1.75rem,1.3rem+1.6vw,2.75rem)] leading-none">
+                <CountUp value={m.value} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div className="shell mt-16 grid gap-12 md:mt-24 md:grid-cols-12">
+        <aside className="hidden md:col-span-3 md:block">
+          <ChapterNav items={CHAPTERS} />
+        </aside>
+        <div className="md:col-span-8 md:col-start-5">
           <Reveal>
+            <p className="prose text-lg leading-relaxed text-text">{p.summary}</p>
+          </Reveal>
+          <Reveal className="mt-14" as="section" id="problem">
             <h2 className="eyebrow mb-5">Problem</h2>
             <p className="prose text-lg leading-relaxed text-text">{p.problem}</p>
           </Reveal>
-          <Reveal className="mt-14">
+          <Reveal className="mt-14" as="section" id="approach">
             <h2 className="eyebrow mb-5">Approach</h2>
-            <ol className="prose grid gap-5" role="list">
+            <ol className="prose grid gap-6" role="list">
               {p.approach.map((a, k) => (
-                <li key={k} className="grid grid-cols-[2.25rem_1fr] gap-3">
+                <li key={k} className="grid grid-cols-[2.5rem_1fr] gap-3 border-t border-border pt-5">
                   <span className="mono pt-1 text-xs text-accent">0{k + 1}</span>
                   <p>{a}</p>
                 </li>
               ))}
             </ol>
           </Reveal>
-        </div>
-        <aside className="md:col-span-4 md:col-start-9">
-          <Reveal>
+          <Reveal className="mt-14" as="section" id="results">
             <h2 className="eyebrow mb-5">Results</h2>
-            <dl className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border">
+            <dl className="grid gap-4 sm:grid-cols-2">
               {p.results.map((m, k) => (
-                <div key={m.label} data-reveal style={{ '--i': k } as CSSProperties} className="flex flex-col bg-surface p-5">
-                  <dt className="order-2 mt-2 text-sm text-muted">{m.label}</dt>
-                  <dd className="order-1 tabular font-display text-3xl leading-none">{m.value}</dd>
+                <div key={m.label} data-reveal style={{ '--i': k } as CSSProperties} className="flex flex-col border-l border-border pl-4">
+                  <dt className="order-2 mt-1 text-sm text-muted">{m.label}</dt>
+                  <dd className="order-1 num font-display text-3xl leading-none">{m.value}</dd>
                 </div>
               ))}
             </dl>
+            {p.repo && (
+              <dl className="mono mt-8 grid grid-cols-2 gap-y-3 border-t border-border pt-5 text-xs text-muted sm:grid-cols-4">
+                <div>
+                  <dt className="text-faint">Created</dt>
+                  <dd>{formatDate(p.createdAt)}</dd>
+                </div>
+                <div>
+                  <dt className="text-faint">Commits</dt>
+                  <dd>{p.commits}</dd>
+                </div>
+                <div>
+                  <dt className="text-faint">Default branch</dt>
+                  <dd>{p.repo.default_branch}</dd>
+                </div>
+                <div>
+                  <dt className="text-faint">License</dt>
+                  <dd>{p.repo.license ?? 'unlicensed'}</dd>
+                </div>
+              </dl>
+            )}
           </Reveal>
-          <Reveal className="mt-12">
+          <Reveal className="mt-14" as="section" id="stack">
             <h2 className="eyebrow mb-5">Stack</h2>
             <ul className="flex flex-wrap gap-2" role="list">
               {p.stack.map((s) => (
@@ -137,28 +204,32 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
                 </li>
               ))}
             </ul>
+            {p.repo?.topics?.length ? <p className="mono mt-6 text-sm text-muted">{p.repo.topics.map((t) => `#${t}`).join('  ')}</p> : null}
           </Reveal>
-          {p.repo?.topics?.length ? (
-            <Reveal className="mt-12">
-              <h2 className="eyebrow mb-5">GitHub topics</h2>
-              <p className="mono text-sm text-muted">{p.repo.topics.map((t) => `#${t}`).join('  ')}</p>
+          {related.length > 0 && (
+            <Reveal className="mt-14" as="section">
+              <h2 className="eyebrow mb-5">From the notes</h2>
+              <ul className="grid gap-3" role="list">
+                {related.map((n) => (
+                  <li key={n.slug}>
+                    <TransitionLink href={`/notes/${n.slug}/`} className="card group flex items-start justify-between gap-6 p-5" label={n.title}>
+                      <span>
+                        <span className="block font-display text-xl leading-tight">{n.title}</span>
+                        <span className="mt-2 block text-sm text-muted">{n.dek}</span>
+                      </span>
+                      <span className="arrow mt-1 text-muted transition-transform group-hover:translate-x-1" aria-hidden>
+                        →
+                      </span>
+                    </TransitionLink>
+                  </li>
+                ))}
+              </ul>
             </Reveal>
-          ) : null}
-        </aside>
+          )}
+        </div>
       </div>
 
-      <nav className="container mt-24 md:mt-32" aria-label="Adjacent projects">
-        <div className="hairline grid gap-6 pt-6 sm:grid-cols-2">
-          <TransitionLink href={`/work/${prev.slug}/`} className="group">
-            <span className="eyebrow">← Previous</span>
-            <span className="link-underline mt-2 block font-display text-2xl">{prev.title}</span>
-          </TransitionLink>
-          <TransitionLink href={`/work/${next.slug}/`} className="group sm:text-right">
-            <span className="eyebrow">Next →</span>
-            <span className="link-underline mt-2 block font-display text-2xl">{next.title}</span>
-          </TransitionLink>
-        </div>
-      </nav>
+      <NextProject project={next} prev={prev} />
     </article>
   );
 }

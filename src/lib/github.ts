@@ -73,3 +73,6 @@ export const stats = (() => {
     liveDemos: showcaseRepos.filter((r) => r.homepage).length + 1, // + VeriLens (live URL documented in its README)
   };
 })();
+
+/** Trimmed shape for the stacked home cards — only what the card renders. */
+export const toStackProject = (p: Project) => ({ slug: p.slug, title: p.title, category: p.category, tagline: p.tagline, summary: p.summary, stack: p.stack.slice(0, 5), liveUrl: p.liveUrl, repoUrl: p.repoUrl, pushedAt: p.pushedAt, image: p.image, diagram: p.diagram, results: p.results.slice(0, 2) });
