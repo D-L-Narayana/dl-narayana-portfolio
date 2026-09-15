@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: '404 — route not found', robots: { 
 
 export default function NotFound() {
   return (
-    <section className="container flex min-h-[80svh] flex-col justify-center py-32">
+    <section className="shell flex min-h-[80svh] flex-col justify-center py-32">
       <p className="eyebrow mb-6 flex items-center gap-3">
         <span className="text-accent">404</span>
         <span aria-hidden className="inline-block h-px w-6 bg-border-strong" />

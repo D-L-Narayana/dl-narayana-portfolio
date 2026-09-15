@@ -6,7 +6,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 
 type Phase = 'idle' | 'covering' | 'covered' | 'lifting';
-const Ctx = createContext<{ navigate: (href: string) => void; phase: Phase }>({ navigate: () => {}, phase: 'idle' });
+const Ctx = createContext<{ navigate: (href: string, label?: string) => void; phase: Phase }>({ navigate: () => {}, phase: 'idle' });
+
+const ROUTE_LABEL: Record<string, string> = { '/': 'Home', '/work/': 'Work', '/about/': 'About', '/github/': 'GitHub', '/contact/': 'Contact', '/notes/': 'Notes', '/resume/': 'Résumé' };
 
 const WIPE = { duration: 0.46, ease: [0.76, 0, 0.24, 1] as const };
 
@@ -16,11 +18,12 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>('idle');
+  const [label, setLabel] = useState<string>('');
   const pending = useRef<string | null>(null);
   const fromPath = useRef(pathname);
 
   const navigate = useCallback(
-    (href: string) => {
+    (href: string, lbl?: string) => {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce || href === pathname) {
         router.push(href);
@@ -28,6 +31,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       }
       pending.current = href;
       fromPath.current = pathname;
+      setLabel(lbl ?? ROUTE_LABEL[href] ?? '');
       setPhase('covering');
     },
     [pathname, router],
@@ -78,7 +82,13 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
             onAnimationComplete={(def) => {
               if (phase === 'covering' && typeof def === 'object' && def && 'scaleY' in def && (def as { scaleY: number }).scaleY === 1) onCovered();
             }}
-          />
+          >
+            {label && (
+              <motion.span className="curtain-label" initial={{ opacity: 0, y: 8 }} animate={{ opacity: phase === 'lifting' ? 0 : 1, y: 0 }} transition={{ duration: 0.28, delay: phase === 'lifting' ? 0 : 0.18 }}>
+                {label}
+              </motion.span>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
     </Ctx.Provider>
@@ -87,10 +97,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
 export const useTransition = () => useContext(Ctx);
 
-type TLProps = LinkProps & AnchorHTMLAttributes<HTMLAnchorElement> & { children: ReactNode };
+type TLProps = LinkProps & AnchorHTMLAttributes<HTMLAnchorElement> & { children?: ReactNode; label?: string };
 
 /** A next/link that routes through the curtain for plain left-clicks on internal routes. */
-export function TransitionLink({ href, onClick, children, ...rest }: TLProps) {
+export function TransitionLink({ href, onClick, children, label, ...rest }: TLProps) {
   const { navigate } = useTransition();
   const h = typeof href === 'string' ? href : ((href as { pathname?: string | null }).pathname ?? '/');
   const handle = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -98,7 +108,7 @@ export function TransitionLink({ href, onClick, children, ...rest }: TLProps) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (!h.startsWith('/') || h.startsWith('/#') || rest.target === '_blank') return;
     e.preventDefault();
-    navigate(h);
+    navigate(h, label);
   };
   return (
     <Link href={href} onClick={handle} {...rest}>

@@ -4,6 +4,7 @@ import { AnimatePresence, LayoutGroup, motion, useMotionValueEvent, useScroll } 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { TransitionLink } from '@/components/providers/Transition';
+import { PaletteButton } from '@/components/palette/CommandPalette';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { Wordmark } from '@/components/ui/Wordmark';
 import { site } from '@/data/content';
@@ -11,6 +12,7 @@ import { ThemeToggle } from './ThemeToggle';
 
 const links = [
   { href: '/work/', label: 'Work' },
+  { href: '/notes/', label: 'Notes' },
   { href: '/about/', label: 'About' },
   { href: '/github/', label: 'GitHub' },
   { href: '/contact/', label: 'Contact' },
@@ -55,8 +57,8 @@ export function Nav() {
           transition={{ duration: 0.3 }}
           style={{ backdropFilter: scrolled ? 'blur(14px) saturate(140%)' : 'none', WebkitBackdropFilter: scrolled ? 'blur(14px) saturate(140%)' : 'none' }}
         >
-          <nav className="container flex h-16 items-center justify-between gap-6" aria-label="Primary">
-            <TransitionLink href="/" aria-label="D L Narayana — home" className="text-text">
+          <nav className="shell flex h-16 items-center justify-between gap-6" aria-label="Primary">
+            <TransitionLink href="/" aria-label="D L Narayana — home" className="text-text" label="Home">
               <Wordmark />
             </TransitionLink>
 
@@ -67,7 +69,7 @@ export function Nav() {
                   return (
                     <li key={l.href} className="relative">
                       <Magnetic strength={0.18}>
-                        <TransitionLink href={l.href} aria-current={active ? 'page' : undefined} className={`relative isolate block rounded-full px-4 py-2 text-sm font-medium transition-colors ${active ? 'text-text' : 'text-muted hover:text-text'}`}>
+                        <TransitionLink href={l.href} label={l.label} aria-current={active ? 'page' : undefined} className={`relative isolate block rounded-full px-4 py-2 text-sm font-medium transition-colors ${active ? 'text-text' : 'text-muted hover:text-text'}`}>
                           {active && <motion.span layoutId="nav-pill" className="absolute inset-0 -z-10 rounded-full bg-surface-2" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
                           <span className="relative">{l.label}</span>
                         </TransitionLink>
@@ -80,9 +82,7 @@ export function Nav() {
 
             <div className="flex items-center gap-2 md:gap-3">
               <Magnetic strength={0.2} className="hidden sm:inline-block">
-                <a href={`mailto:${site.email}`} className="btn btn-ghost !h-10 !px-4 text-sm">
-                  Email me
-                </a>
+                <PaletteButton />
               </Magnetic>
               <ThemeToggle />
               <button
@@ -106,19 +106,22 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div id="mobile-menu" className="fixed inset-0 z-[95] flex flex-col bg-bg pt-24 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
-            <motion.ul className="container flex flex-col gap-2" role="list" initial="hidden" animate="show" exit="hidden" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } } }}>
+            <motion.ul className="shell flex flex-col gap-2" role="list" initial="hidden" animate="show" exit="hidden" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } } }}>
               {links.map((l) => (
                 <motion.li key={l.href} variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 220, damping: 26 } } }}>
-                  <TransitionLink href={l.href} className="title flex items-baseline justify-between border-b border-border py-5" aria-current={isActive(l.href) ? 'page' : undefined}>
+                  <TransitionLink href={l.href} label={l.label} className="title flex items-baseline justify-between border-b border-border py-5" aria-current={isActive(l.href) ? 'page' : undefined}>
                     {l.label}
                     <span className="eyebrow">{isActive(l.href) ? 'here' : '→'}</span>
                   </TransitionLink>
                 </motion.li>
               ))}
-              <motion.li variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }} className="pt-6">
+              <motion.li variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }} className="flex flex-wrap gap-3 pt-6">
                 <a href={`mailto:${site.email}`} className="btn btn-primary">
                   {site.email}
                 </a>
+                <TransitionLink href="/resume/" label="Résumé" className="btn btn-ghost">
+                  Résumé
+                </TransitionLink>
               </motion.li>
             </motion.ul>
           </motion.div>

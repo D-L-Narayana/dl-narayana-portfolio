@@ -12,7 +12,7 @@ export function GithubLive({ full = false }: { full?: boolean }) {
 
   return (
     <section id="github" className="section" aria-labelledby="github-title">
-      <div className="container">
+      <div className="shell">
         <SectionHeader
           titleAs={full ? 'h1' : 'h2'}
           index={full ? '01' : '02'}

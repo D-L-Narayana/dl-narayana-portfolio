@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   return (
-    <section className="container section pt-32 md:pt-40">
+    <section className="shell section pt-32 md:pt-40">
       <div className="hairline pt-8 md:pt-10">
         <p className="eyebrow mb-6 flex items-center gap-3">
           <span className="text-accent">{stats.publicRepos}</span>
