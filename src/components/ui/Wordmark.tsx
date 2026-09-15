@@ -16,7 +16,7 @@ export function Wordmark({ compact = false }: { compact?: boolean }) {
     <span className="inline-flex items-center gap-3">
       <Monogram size={22} />
       {!compact && (
-        <span className="font-display text-[1.15rem] leading-none tracking-tight">
+        <span className="hidden whitespace-nowrap font-display text-[1.15rem] leading-none tracking-tight min-[360px]:inline">
           D L Narayana
         </span>
       )}
