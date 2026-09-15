@@ -27,7 +27,7 @@ function ChipFlow({ diagram, title }: { diagram: Diagram; title: string }) {
   const n = diagram.stages.length;
   return (
     <div className="flex h-full w-full flex-col justify-between bg-surface-2 p-5" role="img" aria-label={`${title} architecture: ${diagram.stages.join(' → ')}`}>
-      <p className="mono text-[11px] uppercase tracking-[0.08em] text-faint">{title} · architecture</p>
+      <p className="mono text-xs uppercase tracking-[0.08em] text-muted">{title} · architecture</p>
       <ol className="flex flex-wrap items-center gap-y-3 py-4" role="list">
         {diagram.stages.map((s, i) => (
           <li key={s} className="flex items-center">
@@ -48,7 +48,7 @@ function ChipFlow({ diagram, title }: { diagram: Diagram; title: string }) {
           </li>
         )}
       </ol>
-      {diagram.orchestrator && <p className="mono text-[11px] text-muted">{diagram.orchestrator}</p>}
+      {diagram.orchestrator && <p className="mono text-xs text-muted">{diagram.orchestrator}</p>}
     </div>
   );
 }
@@ -66,6 +66,7 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
   const branchIndex = diagram.branch?.from ?? -1;
   const goldIndex = n - 1;
   const ref = useRef<SVGSVGElement>(null);
+  const pid = `grid-${title.replace(/\W+/g, '-').toLowerCase()}`;
   const inView = useInView(ref, { margin: '0px' });
 
   return (
@@ -80,12 +81,12 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
       viewport={{ once: true, amount: 0.4 }}
     >
       <defs>
-        <pattern id={`grid-${title}`} width="40" height="40" patternUnits="userSpaceOnUse">
+        <pattern id={pid} width="40" height="40" patternUnits="userSpaceOnUse">
           <path d="M40 0H0V40" fill="none" stroke="var(--border)" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width={W} height={H} fill="var(--surface-2)" />
-      <rect width={W} height={H} fill={`url(#grid-${title})`} opacity="0.7" />
+      <rect width={W} height={H} fill={`url(#${pid})`} opacity="0.7" />
 
       {/* rail */}
       <motion.line
@@ -131,7 +132,7 @@ function SchematicSvg({ diagram, title }: { diagram: Diagram; title: string }) {
         return (
           <motion.g key={s} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0, transition: { delay: 0.15 + i * 0.12, type: 'spring', stiffness: 200, damping: 26 } } }}>
             <rect x={xs[i]} y={railY - boxH / 2} width={boxW} height={boxH} rx="12" fill={gold ? 'var(--accent)' : 'var(--surface)'} stroke={gold ? 'var(--accent)' : 'var(--border-strong)'} strokeWidth="1.5" />
-            <text x={xs[i] + boxW / 2} y={railY + 6} textAnchor="middle" fontFamily="var(--font-sans)" fontWeight="600" fontSize={boxW < 120 ? 15 : 17} fill={gold ? 'var(--on-accent)' : 'var(--text)'}>
+            <text x={xs[i] + boxW / 2} y={railY + 6} textAnchor="middle" fontFamily="var(--font-sans)" fontWeight="600" fontSize={boxW < 120 ? 14 : boxW < 150 ? 15 : 17} fill={gold ? 'var(--on-accent)' : 'var(--text)'}>
               {s}
             </text>
             <text x={xs[i] + boxW / 2} y={railY - boxH / 2 - 14} textAnchor="middle" fontFamily="var(--font-mono)" fontSize="13" fill="var(--text-faint)">

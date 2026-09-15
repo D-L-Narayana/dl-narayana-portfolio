@@ -77,3 +77,86 @@ buttons and nav items; "View" label over project media; thin text bar over prose
 covers/lifts on route change; nav pill slides; mobile menu opens with stagger; focus ring visible on
 keyboard tab; theme toggle switches to paper; custom cursor NOT mounted on touch or reduced-motion
 contexts; Lenis inactive under reduced motion; skip link off-screen until focused.
+
+## Round 3 — proportion & hierarchy (16:35)
+
+Captures: 44 + 13 state captures. Console errors: 0. Overflow: 0.
+
+Critique:
+- Layout finally breathes; metric numerals sit at 24–30 px, hero stats at 30–36 px. Rows read as
+  editorial spreads. Mobile chip-flow diagrams are legible (13 px labels, Gold chip filled).
+- Sub-pages `/about/`, `/github/`, `/contact/` had **no `<h1>`** (they reused the home section
+  component whose title is an `<h2>`).
+- Filter buttons used `role="tab"` without tab panels — semantically wrong.
+- Definition lists put `<dd>` before `<dt>` (visual "big number, small label" order).
+- **Lighthouse mobile home: P 55** — TBT 1 810 ms, LCP 4.8 s. Script evaluation 3.4 s on the 4×-throttled
+  CPU; LCP element was the hero paragraph, whose `opacity: 0` inline style waited for Motion to hydrate
+  (element render delay 1 660 ms). Desktop already P 99 / A 100 / BP 100 / SEO 100.
+- Lighthouse a11y flagged contrast: filter count at 70 % opacity on amber (3.5:1), chip-flow caption
+  `text-faint` on `surface-2` in light mode (4.2:1).
+- FPS trace: 3 long tasks (max 294 ms) during scroll, 26/2600 frames > 25 ms — dozens of Motion
+  `whileInView` elements (26 chart bars, list rows, chips) all mounting springs together.
+
+Fixes:
+- `SectionHeader` takes `titleAs`; full-page variants render `<h1>`. Filters → `aria-pressed`
+  buttons in a `role="group"`. `<dt>`/`<dd>` order fixed with CSS `order`.
+- Hero words, eyebrow, paragraph, CTAs, canvas and stats now animate with **CSS keyframes**
+  (`.word-rise`, `.fade-rise`, transform/opacity, reduced-motion aware) so the LCP paints before any
+  JavaScript. Motion still owns the hero's scroll-linked parallax and fade.
+- A single `RevealObserver` (one IntersectionObserver) drives CSS reveals for dense lists — tiles,
+  repo rows, stack rows, principles, timeline entries, result cards — replacing ~70 Motion elements.
+  Motion `Reveal` remains on section headers, project rows and cards; `layoutId`, `AnimatePresence`,
+  `useScroll`/`useTransform`, `useVelocity`, springs and stagger variants are untouched.
+- Chart bars/segments: CSS `scaleY`/`scaleX` transitions with per-bar delay, flipped by one
+  `useInView`. Canvas loop starts after `load` + idle; 80/150/220 particles by width.
+- Fonts subset with pyftsubset (Latin + punctuation + arrows; variable axes kept): Zodiak 37→28 KB,
+  Zodiak Italic 45→33 KB, Satoshi 43→30 KB; Satoshi Italic dropped (unused). `frame`/`cancelFrame`
+  imported from `motion/react` so the vanilla `motion` entry is never bundled.
+- Tokens: `--text-faint` → `#8a8377` (dark) / `#6b6355` (light): ≥ 4.67:1 on every surface.
+  Filter count at full opacity; chip-flow captions `text-muted` at 12 px.
+
+Measured after fixes (same build, home, 1440×900):
+- **FPS — scroll:** p50 ≈ 3 ms · p95 5.5 ms · p99 9.9 ms · 2 / 3374 frames > 25 ms · 0 long tasks
+  (Layout events 901 vs 2162 in round 1).
+- **FPS — hover sweep:** p95 4.8 ms · p99 8.0 ms · 0 / 1314 dropped · 0 long tasks.
+- **Lighthouse mobile:** home P 92 · A 100 · BP 100 · SEO 100 (LCP 3.3 s, TBT 100 ms, CLS 0);
+  contact P 91. Earlier pass over every route (before the font diet): work 88, about 87, github 87,
+  lakeflow 86, staynest 88 — all A ≥ 98, BP 100, SEO 100.
+- **Lighthouse desktop:** home 100 / 100 / 100 / 100 (LCP 0.6 s); work 100; about 99; github 100;
+  contact 100; lakeflow 99; staynest 99.
+
+## Round 4 — accessibility & Lighthouse sweep (16:50)
+
+Captures: 44 + 13 states. Console errors: 0. Overflow: 0. Lighthouse across 7 routes: desktop
+99–100 everywhere; mobile 86–88 before, 91–92 after the font subset (LCP is Lantern's simulated
+slow-4G font/CSS dependency; TBT 50–110 ms; CLS 0). a11y 98 on /about/ (heading order).
+
+Critique:
+- `/about/` jumped from `<h1>` straight to `<h3>` principle titles.
+- In light mode the **Retail ETL schematic rendered as a dark grey slab**: the SVG `<pattern>` id
+  was built from the project title and contained spaces ("grid-Retail Lakehouse ETL") → invalid
+  `url()` → black fill at 70 %. Single-word titles masked the bug.
+- "Raw JSON + CSV" overflowed its 140-px stage box.
+- Marquee advertised a "Drag" cursor but is not draggable — a lie in the interaction language.
+- "Recently pushed" descriptions were truncated by a crude regex; some cut mid-thought.
+- ~290 px of dead space between sections (two 144-px paddings stacked).
+- Skip link scrolled but did not move focus.
+
+Fixes: heading levels follow the page (`h2/h3` on home, `h1/h2/h3` on `/about/`); pattern ids
+slugified; stage label "Raw files" and 14-px labels for narrow boxes; marquee cursor state
+removed; descriptions `line-clamp-2`; section padding `clamp(3.5rem, 7vw, 6.5rem)`; skip link
+focuses `#main` after the Lenis scroll.
+
+## Round 5 — schematic fit (17:00)
+
+Captures: 44 + 13 states. Console errors: 0. Overflow: 0.
+
+Critique:
+- With the parallax wrapper (112 % tall) the schematic letterboxed inside its 16:10 mask; forcing
+  `preserveAspectRatio="slice"` then **cropped the first and last stage boxes** off the sides.
+  Screenshots need parallax; diagrams need to be read whole.
+- Everything else holds at 1440 / 1024 / 768 / 375 in both themes: rows alternate cleanly, chip
+  flows are legible, tiles/charts/lists reveal in sequence, the timeline rail draws with scroll.
+
+Fixes: diagrams render at 100 % inside the mask with a 1.02 hover scale (no parallax, `meet`
+fit); screenshots keep the ±6 % drift.

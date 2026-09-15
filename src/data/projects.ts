@@ -84,7 +84,7 @@ export const projects: ProjectContent[] = [
     featured: 2,
     hasScreenshot: false,
     diagram: {
-      stages: ['Raw JSON + CSV', 'Extract', 'Harmonise', 'DQ gate', 'Star schema', 'Marts', 'MongoDB'],
+      stages: ['Raw files', 'Extract', 'Harmonise', 'DQ gate', 'Star schema', 'Marts', 'MongoDB'],
       branch: { from: 3, label: 'Quarantine' },
       orchestrator: 'Airflow DAG · JSON run metrics',
     },

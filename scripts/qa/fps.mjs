@@ -73,7 +73,14 @@ async function traced(label, fn) {
   const byName = {};
   for (const e of events) if (e.dur) byName[e.name] = (byName[e.name] || 0) + e.dur / 1000;
   const top = Object.entries(byName).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([n, ms]) => `${n} ${ms.toFixed(0)}ms`);
-  return { label, ...stats, trace: { drawFrames: draw, tasksOver50ms: longRun, layouts, styleRecalcs: styles, events: events.length, topByDuration: top } };
+  // Anatomy of the longest tasks: which nested events dominate them.
+  const tasks = events.filter((e) => (e.name === 'RunTask' || e.name === 'ThreadControllerImpl::RunTask') && e.dur > 50000).sort((a, b) => b.dur - a.dur).slice(0, 3);
+  const longest = tasks.map((t) => {
+    const inner = {};
+    for (const e of events) if (e.dur && e.ts >= t.ts && e.ts + e.dur <= t.ts + t.dur && e !== t) inner[e.name] = (inner[e.name] || 0) + e.dur / 1000;
+    return { ms: Math.round(t.dur / 1000), inner: Object.entries(inner).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([n, ms]) => `${n} ${ms.toFixed(0)}`) };
+  });
+  return { label, ...stats, trace: { drawFrames: draw, tasksOver50ms: longRun, layouts, styleRecalcs: styles, events: events.length, topByDuration: top, longestTasks: longest } };
 }
 
 const scroll = await traced('scroll (wheel, 1440×900)', async () => {

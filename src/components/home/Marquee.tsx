@@ -28,7 +28,7 @@ export function Marquee({ items, baseVelocity = 40 }: { items: string[]; baseVel
 
   const row = [...items, ...items];
   return (
-    <div className="marquee hairline border-b border-border py-5" data-cursor="drag">
+    <div className="marquee hairline border-b border-border py-5">
       <motion.div className="marquee-track" style={{ x }}>
         {row.map((it, i) => (
           <span key={i} className="flex items-center gap-10 font-display text-[clamp(1.5rem,1.2rem+1.4vw,2.5rem)] text-muted">

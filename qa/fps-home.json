@@ -1,45 +1,67 @@
 {
   "url": "http://127.0.0.1:3210/",
-  "when": "2026-09-15T16:04:31.115Z",
+  "when": "2026-09-15T16:31:15.966Z",
   "note": "Headless Chromium, software rendering (no GPU) — real hardware is faster.",
   "scroll": {
     "label": "scroll (wheel, 1440×900)",
-    "frames": 1923,
-    "seconds": 10.298599999999997,
-    "avgFps": 186.72440914299037,
-    "p50ms": 4.099999999998545,
-    "p95ms": 12.800000000000182,
-    "p99ms": 18.899999999999636,
-    "onePercentLowFps": 52.91005291005393,
-    "droppedFrames": 7,
+    "frames": 3374,
+    "seconds": 9.598800000000008,
+    "avgFps": 351.5022711172227,
+    "p50ms": 2.4000000000005457,
+    "p95ms": 5.5,
+    "p99ms": 9.900000000000091,
+    "onePercentLowFps": 101.01010101010009,
+    "droppedFrames": 2,
     "longTasks": 0,
     "longestTaskMs": 0,
     "trace": {
-      "drawFrames": 1939,
+      "drawFrames": 3380,
       "tasksOver50ms": 0,
-      "layouts": 2162,
-      "styleRecalcs": 4668,
-      "events": 147644
+      "layouts": 901,
+      "styleRecalcs": 7046,
+      "events": 240581,
+      "topByDuration": [
+        "FunctionCall 2660ms",
+        "FireAnimationFrame 2410ms",
+        "Layerize 1119ms",
+        "UpdateLayoutTree 532ms",
+        "HitTest 529ms",
+        "PrePaint 436ms",
+        "EventDispatch 387ms",
+        "Paint 365ms"
+      ],
+      "longestTasks": []
     }
   },
   "hover": {
     "label": "hover sweep (nav, buttons, cards)",
-    "frames": 954,
-    "seconds": 6.066399999999998,
-    "avgFps": 157.25965976526444,
-    "p50ms": 4.80000000000291,
-    "p95ms": 14.100000000002183,
-    "p99ms": 21.799999999999272,
-    "onePercentLowFps": 45.87155963302905,
-    "droppedFrames": 5,
+    "frames": 1314,
+    "seconds": 4.402799999999999,
+    "avgFps": 298.44644317252664,
+    "p50ms": 3.100000000002183,
+    "p95ms": 4.80000000000291,
+    "p99ms": 8,
+    "onePercentLowFps": 125,
+    "droppedFrames": 0,
     "longTasks": 0,
     "longestTaskMs": 0,
     "trace": {
-      "drawFrames": 957,
+      "drawFrames": 1317,
       "tasksOver50ms": 0,
-      "layouts": 956,
-      "styleRecalcs": 1340,
-      "events": 71264
+      "layouts": 810,
+      "styleRecalcs": 1906,
+      "events": 91458,
+      "topByDuration": [
+        "FunctionCall 893ms",
+        "FireAnimationFrame 832ms",
+        "Layerize 404ms",
+        "Paint 310ms",
+        "UpdateLayoutTree 256ms",
+        "IntersectionObserverController::computeIntersections 224ms",
+        "PrePaint 113ms",
+        "EventDispatch 103ms"
+      ],
+      "longestTasks": []
     }
   }
 }

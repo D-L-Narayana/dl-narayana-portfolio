@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { TransitionLink } from '@/components/providers/Transition';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { Picture } from '@/components/ui/Picture';
-import { Item, Reveal, RevealGroup } from '@/components/ui/Reveal';
+import type { CSSProperties } from 'react';
+import { Reveal } from '@/components/ui/Reveal';
 import { SystemDiagram } from '@/components/ui/SystemDiagram';
 import { CATEGORY_LABEL } from '@/data/projects';
 import { allProjects, projectBySlug, stats } from '@/lib/github';
@@ -118,14 +119,14 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         <aside className="md:col-span-4 md:col-start-9">
           <Reveal>
             <h2 className="eyebrow mb-5">Results</h2>
-            <RevealGroup as="dl" className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border">
-              {p.results.map((m) => (
-                <Item key={m.label} className="bg-surface p-5">
-                  <dd className="tabular font-display text-3xl leading-none">{m.value}</dd>
-                  <dt className="mt-2 text-sm text-muted">{m.label}</dt>
-                </Item>
+            <dl className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border">
+              {p.results.map((m, k) => (
+                <div key={m.label} data-reveal style={{ '--i': k } as CSSProperties} className="flex flex-col bg-surface p-5">
+                  <dt className="order-2 mt-2 text-sm text-muted">{m.label}</dt>
+                  <dd className="order-1 tabular font-display text-3xl leading-none">{m.value}</dd>
+                </div>
               ))}
-            </RevealGroup>
+            </dl>
           </Reveal>
           <Reveal className="mt-12">
             <h2 className="eyebrow mb-5">Stack</h2>

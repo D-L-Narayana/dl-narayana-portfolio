@@ -1,15 +1,18 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { TransitionLink } from '@/components/providers/Transition';
-import { Item, Reveal, RevealGroup } from '@/components/ui/Reveal';
+
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { principles, site, stackGroups } from '@/data/content';
 
 export function About({ full = false }: { full?: boolean }) {
   const exploring = stackGroups.find((g) => g.name === 'Exploring')?.items ?? [];
+  const Label = full ? 'h2' : 'h3';
+  const Sub = full ? 'h3' : 'h4';
   return (
     <section id="about" className="section" aria-labelledby="about-title">
       <div className="container">
         <SectionHeader
+          titleAs={full ? 'h1' : 'h2'}
           index={full ? '01' : '03'}
           eyebrow="About"
           title={
@@ -19,7 +22,7 @@ export function About({ full = false }: { full?: boolean }) {
           }
         />
         <div className="grid gap-12 md:grid-cols-12">
-          <Reveal className="prose md:col-span-7 md:pr-8">
+          <div data-reveal className="prose md:col-span-7 md:pr-8">
             <p>
               I&rsquo;m a computer-science student in Visakhapatnam who would rather ship a working system than a slide about one. Over the last year that has meant end-to-end <strong>data pipelines</strong> — change-data-capture from PostgreSQL through Debezium and Kafka into Spark Structured Streaming, batch ETL into star-schema warehouses with SCD Type 2 history, data-quality gates, Airflow orchestration and idempotent, observable jobs.
             </p>
@@ -41,9 +44,9 @@ export function About({ full = false }: { full?: boolean }) {
                 </TransitionLink>
               </p>
             )}
-          </Reveal>
+          </div>
 
-          <Reveal className="md:col-span-5" delay={0.1}>
+          <div data-reveal style={{ '--d': '120ms' } as CSSProperties} className="md:col-span-5">
             <dl className="hairline text-sm">
               <Row k="Name" v="D L Narayana" />
               <Row k="Based in" v={site.location} />
@@ -53,20 +56,20 @@ export function About({ full = false }: { full?: boolean }) {
               <Row k="GitHub" v={<a href={site.github} className="link-underline" target="_blank" rel="noreferrer">github.com/D-L-Narayana ↗</a>} />
               <Row k="LinkedIn" v={<a href={site.linkedin} className="link-underline" target="_blank" rel="noreferrer">linkedin.com/in/dlnarayana ↗</a>} />
             </dl>
-          </Reveal>
+          </div>
         </div>
 
         <div className="mt-20">
-          <p className="eyebrow mb-6">Working principles</p>
-          <RevealGroup as="ol" className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+          <Label className="eyebrow mb-6">Working principles</Label>
+          <ol className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4" role="list">
             {principles.map((p, i) => (
-              <Item key={p.title} as="li" className="bg-surface p-6 md:p-7">
+              <li key={p.title} data-reveal style={{ '--i': i } as CSSProperties} className="bg-surface p-6 md:p-7">
                 <span className="mono text-xs text-accent">0{i + 1}</span>
-                <h3 className="mt-4 font-sans text-lg font-semibold tracking-normal">{p.title}</h3>
+                <Sub className="mt-4 font-sans text-lg font-semibold tracking-normal">{p.title}</Sub>
                 <p className="mt-3 text-sm text-muted">{p.body}</p>
-              </Item>
+              </li>
             ))}
-          </RevealGroup>
+          </ol>
         </div>
       </div>
     </section>

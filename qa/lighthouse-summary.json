@@ -1,0 +1,54 @@
+[
+  {
+    "route": "/",
+    "preset": "mobile",
+    "performance": 92,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": "3.3 s",
+    "cls": "0",
+    "tbt": "100 ms",
+    "fcp": "1.2 s",
+    "failing": []
+  },
+  {
+    "route": "/",
+    "preset": "desktop",
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": "0.6 s",
+    "cls": "0",
+    "tbt": "0 ms",
+    "fcp": "0.3 s",
+    "failing": []
+  },
+  {
+    "route": "/contact/",
+    "preset": "mobile",
+    "performance": 91,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": "3.5 s",
+    "cls": "0",
+    "tbt": "50 ms",
+    "fcp": "1.1 s",
+    "failing": []
+  },
+  {
+    "route": "/contact/",
+    "preset": "desktop",
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": "0.7 s",
+    "cls": "0",
+    "tbt": "0 ms",
+    "fcp": "0.3 s",
+    "failing": []
+  }
+]

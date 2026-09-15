@@ -20,10 +20,7 @@ const zodiak = localFont({
   adjustFontFallback: 'Times New Roman',
 });
 const satoshi = localFont({
-  src: [
-    { path: '../fonts/Satoshi-Variable.woff2', weight: '300 900', style: 'normal' },
-    { path: '../fonts/Satoshi-VariableItalic.woff2', weight: '300 900', style: 'italic' },
-  ],
+  src: [{ path: '../fonts/Satoshi-Variable.woff2', weight: '300 900', style: 'normal' }],
   variable: '--font-satoshi',
   display: 'swap',
   preload: true,
@@ -83,6 +80,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}.word-rise{transform:none!important;animation:none!important}`}</style>
+        </noscript>
       </head>
       <body>
         <Providers>

@@ -18,7 +18,7 @@ export function ContactForm({ email }: { email: string }) {
   };
 
   return (
-    <form onSubmit={submit} className="card p-6 md:p-8" aria-describedby="form-note" noValidate={false}>
+    <form onSubmit={submit} className="card p-6 md:p-8" aria-describedby="form-note">
       <div className="grid gap-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <label className="field">

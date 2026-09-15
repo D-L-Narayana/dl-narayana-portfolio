@@ -1,12 +1,11 @@
 'use client';
 
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform, type MotionStyle } from 'motion/react';
+import { useRef, type CSSProperties } from 'react';
 import { TransitionLink } from '@/components/providers/Transition';
 import { Magnetic } from '@/components/ui/Magnetic';
 import { site } from '@/data/content';
 import { formatDate, nf } from '@/lib/format';
-import { spring } from '@/lib/motion';
 import { PipelineCanvas } from './PipelineCanvas';
 
 type Stats = { publicRepos: number; commits: number; liveDemos: number; lastPush: string | null };
@@ -21,14 +20,10 @@ function Words({ words, base }: { words: string[]; base: number }) {
         const em = word.startsWith('*');
         const text = word.replace(/\*/g, '');
         return (
-          <motion.span
-            key={i}
-            className={`inline-block will-change-transform ${em ? 'italic font-normal text-accent' : ''}`}
-            variants={{ hidden: { y: '110%' }, show: { y: '0%', transition: { ...spring.default, stiffness: 160, damping: 26, delay: base + i * 0.055 } } }}
-          >
+          <span key={i} className={`word-rise ${em ? 'italic font-normal text-accent' : ''}`} style={{ '--d': `${Math.round((base + i * 0.055) * 1000)}ms` } as CSSProperties}>
             {text}
             {i < words.length - 1 ? '\u00A0' : ''}
-          </motion.span>
+          </span>
         );
       })}
     </span>
@@ -46,8 +41,8 @@ export function Hero({ stats }: { stats: Stats }) {
   return (
     <section ref={ref} className="relative flex min-h-[100svh] flex-col justify-end pt-28 md:pt-32" aria-labelledby="hero-title">
       <motion.div className="container" style={{ y, opacity }}>
-        <motion.div initial="hidden" animate="show" variants={{ hidden: {}, show: {} }}>
-          <motion.p className="eyebrow mb-6 flex flex-wrap items-center gap-x-3 gap-y-1" variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.6, delay: 0.05 } } }}>
+        <div>
+          <p className="eyebrow fade-rise mb-6 flex flex-wrap items-center gap-x-3 gap-y-1" style={{ '--d': '40ms' } as CSSProperties}>
             <span className="inline-flex items-center gap-3">
               <span className="text-accent" aria-hidden>
                 ●
@@ -56,7 +51,7 @@ export function Hero({ stats }: { stats: Stats }) {
             </span>
             <span aria-hidden className="hidden h-px w-6 bg-border-strong sm:inline-block" />
             <span>{site.location}</span>
-          </motion.p>
+          </p>
           <h1 id="hero-title" className="display" aria-label="Pipelines that hold. Products that ship.">
             <span aria-hidden>
               <Words words={line1} base={0.1} />
@@ -64,10 +59,10 @@ export function Hero({ stats }: { stats: Stats }) {
             </span>
           </h1>
           <div className="mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:items-end">
-            <motion.p className="lead md:col-span-7" variants={{ hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0, transition: { ...spring.default, delay: 0.55 } } }}>
+            <p className="lead fade-rise md:col-span-7" style={{ '--d': '520ms' } as CSSProperties}>
               I&rsquo;m D L Narayana — a data engineer and full-stack developer building real-time CDC lakehouses, PySpark warehouses and AI-first web products. {site.education}.
-            </motion.p>
-            <motion.div className="flex flex-wrap items-center gap-3 md:col-span-5 md:justify-end" variants={{ hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0, transition: { ...spring.default, delay: 0.68 } } }}>
+            </p>
+            <div className="fade-rise flex flex-wrap items-center gap-3 md:col-span-5 md:justify-end" style={{ '--d': '660ms' } as CSSProperties}>
               <Magnetic>
                 <TransitionLink href="/work/" className="btn btn-primary">
                   Selected work
@@ -84,22 +79,22 @@ export function Hero({ stats }: { stats: Stats }) {
                   </span>
                 </a>
               </Magnetic>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
 
-      <motion.div className="container mt-12 md:mt-16" style={{ y: canvasY }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduce ? 0 : 1, delay: reduce ? 0 : 0.5 }}>
+      <motion.div className="container fade-rise mt-12 md:mt-16" style={{ y: canvasY, '--d': '500ms' } as MotionStyle}>
         <PipelineCanvas className="h-[200px] sm:h-[240px] lg:h-[300px]" />
       </motion.div>
 
       <div className="container mt-8 md:mt-10">
-        <motion.dl className="hairline grid grid-cols-2 gap-y-6 py-6 md:grid-cols-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}>
+        <dl className="hairline fade-rise grid grid-cols-2 gap-y-6 py-6 md:grid-cols-4" style={{ '--d': '900ms' } as CSSProperties}>
           <Stat label="Public repositories" value={String(stats.publicRepos)} />
           <Stat label="Commits on public repos" value={nf.format(stats.commits)} />
           <Stat label="Live deployments" value={String(stats.liveDemos)} />
           <Stat label="Last push" value={formatDate(stats.lastPush)} />
-        </motion.dl>
+        </dl>
       </div>
     </section>
   );

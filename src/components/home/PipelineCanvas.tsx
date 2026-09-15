@@ -1,6 +1,6 @@
 'use client';
 
-import { cancelFrame, frame } from 'motion';
+import { cancelFrame, frame } from 'motion/react';
 import { useEffect, useRef } from 'react';
 
 type P = { x: number; y: number; lane: number; speed: number; stage: number; q: number; vy: number; a: number; phase: number };
@@ -24,6 +24,7 @@ function hexToRgb(hex: string): [number, number, number] {
 export function PipelineCanvas({ className = '' }: { className?: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const counterRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const wrap = wrapRef.current!;
@@ -34,6 +35,8 @@ export function PipelineCanvas({ className = '' }: { className?: string }) {
     let running = true, inView = true;
     const ps: P[] = [];
     const pointer = { x: -9999, y: -9999, active: false };
+    const counts = { gold: 0, q: 0, lastWrite: 0 };
+    const counter = counterRef.current;
     let colors = { bg: [12, 11, 9] as [number, number, number], faint: [131, 124, 112] as [number, number, number], muted: [167, 160, 147] as [number, number, number], text: [237, 232, 223] as [number, number, number], accent: [242, 184, 75] as [number, number, number], border: [39, 36, 31] as [number, number, number] };
 
     const readColors = () => {
@@ -70,7 +73,7 @@ export function PipelineCanvas({ className = '' }: { className?: string }) {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const target = w < 640 ? 110 : w < 1024 ? 170 : 240;
+      const target = w < 640 ? 80 : w < 1024 ? 150 : 220;
       while (ps.length < target) {
         const p = { x: 0, y: 0, lane: 0, speed: 0, stage: 0, q: 0, vy: 0, a: 1, phase: 0 };
         spawn(p, true);
@@ -164,7 +167,11 @@ export function PipelineCanvas({ className = '' }: { className?: string }) {
         for (let g = 0; g < GATES.length; g++) {
           if (before < GATES[g] && p.x >= GATES[g]) {
             p.stage = g + 1;
-            if (g === 1 && !p.q && Math.random() < 0.06) p.q = 1;
+            if (g === 1 && !p.q && Math.random() < 0.06) {
+              p.q = 1;
+              counts.q++;
+            }
+            if (g === 2 && !p.q) counts.gold++;
           }
         }
         if (p.q) {
@@ -189,16 +196,39 @@ export function PipelineCanvas({ className = '' }: { className?: string }) {
         if (p.x > 1.03) spawn(p);
         drawParticle(p, t0);
       }
+      if (counter && timestamp - counts.lastWrite > 160) {
+        counts.lastWrite = timestamp;
+        counter.textContent = `gold ${counts.gold.toLocaleString('en-US').padStart(6, '0')} · quarantined ${counts.q.toLocaleString('en-US').padStart(4, '0')}`;
+      }
     };
 
+    let started = false;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      frame.update(tick, true);
+    };
+    let idleId = 0;
+    let timeoutId = 0;
     if (reduce) {
       drawStatic();
     } else {
-      frame.update(tick, true);
+      // Paint one static frame immediately, start the loop once the page is idle so hydration and
+      // the LCP never compete with the animation.
+      drawStatic();
+      const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
+      if (document.readyState === 'complete') {
+        idleId = w.requestIdleCallback ? w.requestIdleCallback(begin, { timeout: 1200 }) : window.setTimeout(begin, 300);
+      } else {
+        window.addEventListener('load', () => (timeoutId = window.setTimeout(begin, 250)), { once: true });
+      }
     }
 
     return () => {
       cancelFrame(tick);
+      window.clearTimeout(timeoutId);
+      const w = window as Window & { cancelIdleCallback?: (id: number) => void };
+      if (idleId && w.cancelIdleCallback) w.cancelIdleCallback(idleId);
       ro.disconnect();
       io.disconnect();
       mo.disconnect();
@@ -220,8 +250,8 @@ export function PipelineCanvas({ className = '' }: { className?: string }) {
       <span className="eyebrow absolute bottom-1 left-0" aria-hidden>
         Postgres → Debezium → Kafka → Spark
       </span>
-      <span className="eyebrow absolute bottom-1 right-0 hidden sm:block" aria-hidden>
-        quarantine ↓ · exactly-once ✓
+      <span ref={counterRef} className="eyebrow tabular absolute bottom-1 right-0 hidden sm:block" aria-hidden>
+        gold 000000 · quarantined 0000
       </span>
     </div>
   );

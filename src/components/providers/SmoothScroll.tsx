@@ -1,7 +1,7 @@
 'use client';
 
 import Lenis from 'lenis';
-import { cancelFrame, frame } from 'motion';
+import { cancelFrame, frame } from 'motion/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, type ReactNode } from 'react';
 
@@ -34,6 +34,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       e.preventDefault();
       lenis.scrollTo(el, { offset: -72 });
       history.replaceState(null, '', `#${id}`);
+      if (el instanceof HTMLElement) el.focus({ preventScroll: true });
     };
     document.addEventListener('click', onClick);
 

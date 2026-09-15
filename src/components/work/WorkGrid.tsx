@@ -27,15 +27,15 @@ export function WorkGrid({ projects, fetchedAt }: { projects: Project[]; fetched
   return (
     <div className="mt-14">
       <LayoutGroup id="work-filters">
-        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter projects by kind">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter projects by kind">
           {filters.map((f) => {
             const active = f.key === filter;
             const count = f.key === 'all' ? projects.length : projects.filter((p) => p.category === f.key).length;
             return (
-              <button key={f.key} role="tab" type="button" aria-selected={active} onClick={() => setFilter(f.key)} className={`relative isolate rounded-full px-4 py-2 text-sm font-medium transition-colors ${active ? 'text-on-accent' : 'text-muted hover:text-text'}`}>
+              <button key={f.key} type="button" aria-pressed={active} onClick={() => setFilter(f.key)} className={`relative isolate rounded-full px-4 py-2 text-sm font-medium transition-colors ${active ? 'text-on-accent' : 'text-muted hover:text-text'}`}>
                 {active && <motion.span layoutId="filter-pill" className="absolute inset-0 -z-10 rounded-full bg-accent" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
                 <span className="relative">
-                  {f.label} <span className="mono text-xs opacity-70">{count}</span>
+                  {f.label} <span className="mono text-xs">{count}</span>
                 </span>
               </button>
             );

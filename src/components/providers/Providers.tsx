@@ -3,6 +3,7 @@
 import { MotionConfig } from 'motion/react';
 import type { ReactNode } from 'react';
 import { Cursor } from './Cursor';
+import { RevealObserver } from './RevealObserver';
 import { SmoothScroll } from './SmoothScroll';
 import { ThemeProvider } from './ThemeProvider';
 import { TransitionProvider } from './Transition';
@@ -15,6 +16,7 @@ export function Providers({ children }: { children: ReactNode }) {
           <TransitionProvider>
             {children}
             <Cursor />
+            <RevealObserver />
           </TransitionProvider>
         </SmoothScroll>
       </ThemeProvider>

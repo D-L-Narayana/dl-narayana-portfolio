@@ -58,7 +58,7 @@ const shot = (page, name) => page.screenshot({ path: path.join(outDir, `STATE-${
   await page.waitForTimeout(1500);
   await shot(page, 'work-after-transition');
   // filter interaction
-  await page.click('button[role="tab"]:has-text("AI")');
+  await page.click('button[aria-pressed]:has-text("AI")');
   await page.waitForTimeout(700);
   await shot(page, 'work-filter-ai');
   await ctx.close();

@@ -1,6 +1,6 @@
 'use client';
 
-import { cancelFrame, frame } from 'motion';
+import { cancelFrame, frame } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
 type State = 'default' | 'link' | 'magnetic' | 'view' | 'drag' | 'external' | 'text' | 'hidden' | 'native';

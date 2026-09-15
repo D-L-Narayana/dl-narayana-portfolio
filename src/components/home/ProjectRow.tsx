@@ -25,15 +25,17 @@ export function ProjectRow({ project: p, index, flip = false, fetchedAt, priorit
     <article ref={ref} className="hairline grid-12 items-center gap-y-8 py-10 md:py-16">
       <Reveal className={`col-span-12 md:col-span-7 ${flip ? 'md:order-2' : ''}`}>
         <TransitionLink href={href} className="media group block aspect-[16/10]" data-cursor="view" aria-label={`${p.title} — open case study`}>
-          <motion.div className="h-[112%] w-full -translate-y-[6%] will-change-transform" style={{ y }}>
-            <motion.div className="h-full w-full" whileHover={reduce ? undefined : { scale: 1.03 }} transition={{ type: 'spring', stiffness: 160, damping: 26 }}>
-              {p.image ? (
+          {p.image ? (
+            <motion.div className="h-[112%] w-full -translate-y-[6%] will-change-transform" style={{ y }}>
+              <motion.div className="h-full w-full" whileHover={reduce ? undefined : { scale: 1.03 }} transition={{ type: 'spring', stiffness: 160, damping: 26 }}>
                 <Picture base={p.image} alt={`${p.title} — screenshot of the live product`} priority={priority} sizes="(min-width: 768px) 58vw, 100vw" className="h-full w-full" />
-              ) : p.diagram ? (
-                <SystemDiagram diagram={p.diagram} title={p.title} />
-              ) : null}
+              </motion.div>
             </motion.div>
-          </motion.div>
+          ) : p.diagram ? (
+            <motion.div className="h-full w-full" whileHover={reduce ? undefined : { scale: 1.02 }} transition={{ type: 'spring', stiffness: 160, damping: 26 }}>
+              <SystemDiagram diagram={p.diagram} title={p.title} />
+            </motion.div>
+          ) : null}
         </TransitionLink>
       </Reveal>
 
@@ -52,9 +54,9 @@ export function ProjectRow({ project: p, index, flip = false, fetchedAt, priorit
           <p className="mt-4 text-muted">{p.tagline}</p>
           <dl className="mt-6 grid grid-cols-2 gap-4">
             {p.results.slice(0, 2).map((m) => (
-              <div key={m.label} className="border-l border-border pl-4">
-                <dd className="tabular font-display text-2xl md:text-3xl">{m.value}</dd>
-                <dt className="mt-1 text-xs text-muted">{m.label}</dt>
+              <div key={m.label} className="flex flex-col border-l border-border pl-4">
+                <dt className="order-2 mt-1 text-xs text-muted">{m.label}</dt>
+                <dd className="order-1 tabular font-display text-2xl md:text-3xl">{m.value}</dd>
               </div>
             ))}
           </dl>

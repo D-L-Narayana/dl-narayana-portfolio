@@ -15,9 +15,15 @@ export function Contact({ full = false }: { full?: boolean }) {
                 <span aria-hidden className="inline-block h-px w-6 bg-border-strong" />
                 Contact
               </p>
-              <h2 id="contact-title" className="display serif-em !text-[clamp(2.5rem,1.2rem+4.4vw,5.5rem)]">
-                Let&rsquo;s build something that <em>holds</em>.
-              </h2>
+              {full ? (
+                <h1 id="contact-title" className="display serif-em !text-[clamp(2.5rem,1.2rem+4.4vw,5.5rem)]">
+                  Let&rsquo;s build something that <em>holds</em>.
+                </h1>
+              ) : (
+                <h2 id="contact-title" className="display serif-em !text-[clamp(2.5rem,1.2rem+4.4vw,5.5rem)]">
+                  Let&rsquo;s build something that <em>holds</em>.
+                </h2>
+              )}
               <p className="lead mt-8">
                 Data engineering, full-stack or AI product work — internships, roles, collaborations. I read every message and reply from {site.email}.
               </p>
