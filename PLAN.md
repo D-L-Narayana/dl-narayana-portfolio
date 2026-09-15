@@ -153,3 +153,49 @@ Round loop (minimum 6): build → `qa:shots` (1440/1024/768/375, both themes, ke
 `QA.md` → fixes → next round. Gates: no overflow/clipping at any width, AA contrast, no console
 errors, no 404 assets, FPS avg ≥ 58 & 1 % low ≥ 45 desktop, Lighthouse P ≥ 90 / A ≥ 95 / BP ≥ 95 /
 SEO ≥ 95, forbidden-API grep clean (`localStorage|sessionStorage|indexedDB|requestPointerLock|requestFullscreen`).
+
+---
+
+## 5. v3 — the overhaul (2026-09-15, evening)
+
+Goal: take the v2 editorial site to award-caliber. Keep the stack and "Signal & Ledger"; raise
+the first impression, make the work immersive, add the features a serious personal site is expected
+to have, and prove every claim with tests.
+
+### Design moves
+
+- **Hero as instrument, full-bleed.** The Canvas 2D band became a viewport-filling **WebGL event
+  field**: ~4,200 analytic GPU particles (position computed in the vertex shader from seed, lane,
+  speed, depth and time — no simulation state), three passes with a time offset for comet tails,
+  pointer repulsion + depth parallax, theme-aware colours read from CSS variables, additive blending
+  on ink / normal on paper. Gates are DOM hairlines so they stay crisp. Falls back to the Canvas 2D
+  stream without WebGL and to one static frame under reduced motion. Headline scale raised to
+  `--fs-display` (up to 8.75rem), copy protected by a bg gradient over the field.
+- **Intro sequence** — server-rendered, CSS-only (bar, ticks, lift), decided by the inline head
+  script: never under reduced motion, never when arriving from another page of the site, only on `/`.
+  Lifts on its own at 1.25 s even before hydration; React only tidies the node away.
+- **Stacked case studies** — six cards pin under the nav and stack; the covered card scales to
+  0.955 and takes a bg-coloured veil (cards stay opaque). Vertical schematic variant for tall
+  media columns. Sticky from `lg`; single-column flow below.
+- **Technology × project ledger** — a real `<table>` computed from every project's declared stack
+  (aliases merged), cross-highlight on hover, filled cells link to case studies; chip list below `lg`.
+- **Case study v2** — hero media that fills its box (21:10 schematic, `ratio` prop), an at-a-glance
+  strip with count-up metrics, sticky chapter nav, repository ledger, related notes, big next-project
+  hand-off, breadcrumb JSON-LD.
+- **Notes** — five engineering write-ups distilled from the READMEs (pattern sketches labelled as
+  such), procedural SVG covers seeded per note, RSS, TechArticle JSON-LD.
+- **Command palette** — ⌘K, fuzzy label match + substring meta match, roving selection with
+  `aria-activedescendant`, focus restore, Lenis paused while open, actions (theme, copy email,
+  résumé PDF, GitHub, LinkedIn).
+- **Résumé** — a real route with print styles; the PDF is printed from it by Playwright so the two
+  cannot drift. One A4 page.
+- **Small things that add up** — labelled transition curtain ("→ LakeFlow"), local-time clock in
+  the footer, back-to-top through Lenis, web manifest + maskable icon, analytics hooks, wider shell
+  on ≥1920 (1520px), `data-reveal="clip"` media reveals with the clip on the child (a clip-path'd
+  target never intersects).
+
+### Gates (all met in QA rounds 6–9)
+
+60/60 E2E checks · 2,295 internal references resolve · 0 console errors · 0 horizontal overflow at
+320/375/768/1024/1440/1920/2560 · Lighthouse mobile home 91 / A 100 / BP 100 / SEO 100, desktop
+98–100 · no storage / pointer-lock / fullscreen APIs · no placeholders.

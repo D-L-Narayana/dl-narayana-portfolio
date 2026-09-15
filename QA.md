@@ -160,3 +160,69 @@ Critique:
 
 Fixes: diagrams render at 100 % inside the mask with a 1.02 hover scale (no parallax, `meet`
 fit); screenshots keep the ±6 % drift.
+
+---
+
+## Round 6 — v3 first build (2026-09-15 23:30)
+
+Captures: home 1440 dark/light + scroll positions, 375 full, work 1440 light, lakeflow 1440 dark.
+Console errors: 0. Overflow: 0.
+
+Critique:
+- **Covered stack cards bled through** — dimming a card with `opacity` made it translucent, so
+  "Retail Lakehouse ETL" rendered over "LakeFlow". Fix: cards stay opaque; a bg-coloured veil
+  (`.stack-veil`) fades in over the covered card instead.
+- **Schematics letterboxed** in the tall media column of the stacked cards (a 16:10 drawing inside a
+  ~1:1 box). Fix: `variant="vertical"` — stages descend a central rail, branch peels right, events
+  fall; `preserveAspectRatio="slice"` is safe because nothing lives at the sides.
+- **Case-study hero media never appeared**: `[data-reveal="clip"]` put `clip-path: inset(0 0 100%)`
+  on the observed element, and a fully clipped target never intersects, so `data-in` was never set.
+  Fix: clip the children, observe the parent.
+- **No side margins on mobile.** `.container` collided with Tailwind v4's own `container` utility
+  (`width: 100%`), which beat the component-layer rule — the v2 layout only looked right on desktop
+  because Tailwind's `max-width` happened to match. Renamed to `.shell`.
+- Skill matrix cells were 63 px squares (table `width: 100%`) → a 1,000 px tall table. Fix: cells
+  `clamp(26px, 2.6vw, 40px)`, table `width: auto`, explanatory aside in the remaining columns.
+
+## Round 7 — tablet, ultrawide, 320 (2026-09-15 23:50)
+
+Captures: 1920 dark, 2560 light, 1024 dark, 768 light, 320 light, about/github/contact/notes.
+- At 768 the 5/7 card split squeezed "29.5 s" onto two lines and cropped the quarantine box.
+  Fix: sticky stacking and the two-column card start at `lg`; below that cards flow single-column.
+  At 1024 the copy column is 6/12 (5/12 from `xl`).
+- Wordmark wrapped at 320 → name hidden below 360 px; hero stat numerals `text-2xl` on phones.
+- Ultrawide: shell widens to 1520 px from 1920.
+- Résumé PDF came out at 3 pages, then the body jumped to page 2: `body { min-height: 100dvh }` and
+  the section padding pushed the (unbreakable) two-column body off page 1. Fix: print CSS zeroes
+  both, flex body, compact type → exactly one A4 page with all six featured projects.
+
+## Round 8 — end-to-end + Lighthouse (2026-09-16 00:20)
+
+`scripts/qa/e2e.mjs`: 60 checks — every sitemap route (200, one `<h1>`, title, no console errors,
+no failed requests), 404, RSS, manifest, PDF, intro lifecycle, hero canvas, palette open/search/
+Enter-navigation/theme action/Escape, count-up exactness, chapter nav + hash, work filters +
+`aria-pressed`, contact form confirmation, matrix hover cross-highlight + links, skip link and focus
+ring, mobile menu, no cursor / no Lenis on touch, reduced-motion behaviour, forbidden-API grep of the
+app chunks, placeholder grep of every HTML file. Two initial failures were test timing (exit
+animations); waits raised to 0.8–0.9 s and Escape is now also handled globally.
+`scripts/qa/links.mjs`: 2,295 internal references in 64 files, 0 missing.
+
+Lighthouse (first pass, uncompressed QA server): home mobile P 70, LCP 6.4 s — the HTML document
+was 353 KB uncompressed (RSC payload duplicates server-rendered SVG covers and the cards' props).
+Fixes: gzip in the QA server (what every host does), lighter procedural covers (44 integer-rounded
+lines, 2 arcs), trimmed client props for the stacked cards (283 KB HTML → ~45 KB over the wire).
+Accessibility findings fixed: `<dl>` with a non-dt/dd child (scroll cue moved out), three
+`label-content-name-mismatch` cases (aria-labels replaced with visible/sr-only content).
+
+After fixes — mobile: home **P 91 · A 100 · BP 100 · SEO 100** (LCP 3.4 s, TBT 110 ms, CLS 0),
+case study 89 (LCP 3.8 s), note 93; desktop: home 98, case study 100, note 100 (LCP 0.6 s).
+Case-study and note headers now animate with CSS (`fade-rise`) instead of Motion so the LCP text
+never waits for hydration.
+
+## Round 9 — polish (2026-09-16 00:40)
+
+- Palette matched "spark" against every tagline containing those letters in order — meta fields now
+  need a substring match; labels keep the fuzzy subsequence scoring.
+- Stack cards show the project summary on `xl` when the viewport is tall enough
+  (`[@media(max-height:780px)]:hidden`).
+- Notes aside: chapter list and "From the project" share one sticky container.

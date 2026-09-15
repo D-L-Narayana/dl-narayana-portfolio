@@ -1,11 +1,15 @@
 {
   "name": "dl-narayana-portfolio",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/postbuild.mjs",
     "start": "npx serve out -l 3000",
+    "serve": "node scripts/qa/serve.mjs out 3210",
+    "resume": "node scripts/resume-pdf.mjs",
+    "qa:e2e": "node scripts/qa/e2e.mjs",
+    "qa:links": "node scripts/qa/links.mjs",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "data": "node scripts/fetch-github.mjs",
