@@ -3,15 +3,15 @@ import { Reveal } from '@/components/ui/Reveal';
 import { site } from '@/data/content';
 import { ContactForm } from './ContactForm';
 
-export function Contact({ full = false }: { full?: boolean }) {
+export function Contact({ full = false, index = '06' }: { full?: boolean; index?: string }) {
   return (
     <section id="contact" className="section" aria-labelledby="contact-title">
-      <div className="container">
+      <div className="shell">
         <div className="hairline grid gap-12 pt-8 md:grid-cols-12 md:pt-10">
           <div className="md:col-span-6">
             <Reveal>
               <p className="eyebrow mb-6 flex items-center gap-3">
-                <span className="text-accent">{full ? '01' : '06'}</span>
+                <span className="text-accent">{full ? '01' : index}</span>
                 <span aria-hidden className="inline-block h-px w-6 bg-border-strong" />
                 Contact
               </p>

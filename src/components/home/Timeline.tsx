@@ -8,16 +8,16 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { timeline } from '@/data/content';
 import { monthYear } from '@/lib/format';
 
-export function Timeline() {
+export function Timeline({ index = '05' }: { index?: string }) {
   const ref = useRef<HTMLOListElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 80%', 'end 60%'] });
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 28 });
 
   return (
     <section id="timeline" className="section" aria-labelledby="timeline-title">
-      <div className="container">
+      <div className="shell">
         <SectionHeader
-          index="05"
+          index={index}
           eyebrow="Timeline"
           title={
             <span id="timeline-title">

@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import { TransitionLink } from '@/components/providers/Transition';
 
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { principles, site, stackGroups } from '@/data/content';
+import { now, principles, site, stackGroups } from '@/data/content';
 
 export function About({ full = false }: { full?: boolean }) {
   const exploring = stackGroups.find((g) => g.name === 'Exploring')?.items ?? [];
@@ -10,7 +10,7 @@ export function About({ full = false }: { full?: boolean }) {
   const Sub = full ? 'h3' : 'h4';
   return (
     <section id="about" className="section" aria-labelledby="about-title">
-      <div className="container">
+      <div className="shell">
         <SectionHeader
           titleAs={full ? 'h1' : 'h2'}
           index={full ? '01' : '03'}
@@ -53,11 +53,30 @@ export function About({ full = false }: { full?: boolean }) {
               <Row k="Education" v={site.education} />
               <Row k="Roles" v={site.roles.join(' · ')} />
               <Row k="Exploring" v={exploring.join(' · ')} />
+              <Row k="CGPA" v={site.cgpa} />
+              <Row k="Résumé" v={<TransitionLink href="/resume/" className="link-underline" label="Résumé">One page, printable →</TransitionLink>} />
               <Row k="GitHub" v={<a href={site.github} className="link-underline" target="_blank" rel="noreferrer">github.com/D-L-Narayana ↗</a>} />
               <Row k="LinkedIn" v={<a href={site.linkedin} className="link-underline" target="_blank" rel="noreferrer">linkedin.com/in/dlnarayana ↗</a>} />
             </dl>
           </div>
         </div>
+
+        {full && (
+          <div className="mt-20">
+            <Label className="eyebrow mb-6">Now — what the work is about</Label>
+            <ul className="grid gap-x-10 gap-y-8 md:grid-cols-2" role="list">
+              {now.map((n, i) => (
+                <li key={n.title} data-reveal style={{ '--i': i } as CSSProperties} className="grid grid-cols-[2.5rem_1fr] gap-3 border-t border-border pt-5">
+                  <span className="mono pt-1 text-xs text-accent">0{i + 1}</span>
+                  <div>
+                    <Sub className="font-sans text-lg font-semibold tracking-normal">{n.title}</Sub>
+                    <p className="mt-2 text-sm text-muted">{n.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="mt-20">
           <Label className="eyebrow mb-6">Working principles</Label>

@@ -14,8 +14,8 @@ export default function AboutPage() {
   return (
     <div className="pt-16 md:pt-20">
       <About full />
-      <Stack />
-      <Timeline />
+      <Stack index="02" />
+      <Timeline index="03" />
     </div>
   );
 }

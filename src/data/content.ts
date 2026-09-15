@@ -11,7 +11,19 @@ export const site = {
   location: 'Visakhapatnam, India',
   roles: ['Data engineer', 'Full-stack developer', 'AI product engineer'],
   education: 'B.Tech Computer Science & Engineering · GITAM · Class of 2027',
+  cgpa: '7.97 / 10',
+  resumePdf: '/D-L-Narayana-Resume.pdf',
+  motto: 'Build things that matter. Ship things that work.',
+  timezone: 'Asia/Kolkata',
 };
+
+/** What the work is about right now — derived from the newest public repositories. */
+export const now = [
+  { title: 'Streaming lakehouses', body: 'CDC from PostgreSQL through Debezium and Kafka into Spark Structured Streaming; SCD2, quarantine and backfills that share one transform set.' },
+  { title: 'Agents with brakes', body: 'LangGraph supervisors whose high-risk actions stop at a policy gate and a human approval — traced, evaluated, tested offline.' },
+  { title: 'ML in the browser tab', body: 'ONNX Runtime Web and WASM pipelines for KYC and document forensics that never upload the document.' },
+  { title: 'Reading & running locally', body: 'Databricks & Delta Lake, Snowflake, Hadoop/Hive, Kafka Streams and data contracts — not yet shipped, so not yet claimed.' },
+];
 
 export const principles = [
   { title: 'Idempotent pipelines', body: 'Replaying the same offsets or re-running a backfill yields identical tables. Retries are safe by construction, not by hope.' },
