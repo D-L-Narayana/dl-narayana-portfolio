@@ -44,7 +44,8 @@ QA (all need the static server on :3210):
 
 ```bash
 npm run qa:e2e         # 60 Playwright checks: every route, palette, theme, filters, form, a11y, reduced motion, forbidden APIs, placeholders
-npm run qa:links       # every internal href/src in out/ resolves
+npm run qa:links       # every internal href/src/srcset in out/ resolves
+npm run qa:subpath     # the export mounted under a strict sub-path (needs: node scripts/qa/serve.mjs out 3211 /sub/site strict)
 npm run qa:shots -- r1 # full-page captures at 1440/1024/768/375, both themes
 npm run qa:fps         # frame-time percentiles during scripted scroll + hover
 npm run qa:lighthouse  # mobile + desktop Lighthouse per route
@@ -59,6 +60,13 @@ npm run qa:lighthouse  # mobile + desktop Lighthouse per route
   when the domain changes.
 - `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` — set at build time to inject Plausible; otherwise no analytics
   script ships. `track(name, props)` in `src/lib/analytics.ts` is the single hook.
+
+## Hosting
+
+`out/` is host-path independent: `scripts/postbuild.mjs` relativises asset and link paths, patches the
+webpack public path, and the router falls back to relative full-page navigations when the site is
+mounted under a prefix — so the same build works at an origin root (Vercel, Netlify, S3 + CDN), on a
+GitHub Pages project path, behind a preview proxy, or from `file://`. `npm run qa:subpath` proves it.
 
 ## Constraints kept on purpose
 

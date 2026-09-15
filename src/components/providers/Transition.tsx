@@ -12,6 +12,28 @@ const ROUTE_LABEL: Record<string, string> = { '/': 'Home', '/work/': 'Work', '/a
 
 const WIPE = { duration: 0.46, ease: [0.76, 0, 0.24, 1] as const };
 
+/**
+ * Where is the site mounted? At the origin root the App Router handles navigation. Under a sub-path
+ * (preview proxies, file://, project pages) its absolute route paths would escape the site, so we
+ * derive the mount point from the page's canonical URL and do a relative full-page navigation.
+ */
+function subPathTarget(href: string): string | null {
+  const canon = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canon) return null;
+  let route = '';
+  try {
+    route = new URL(canon.href).pathname;
+  } catch {
+    return null;
+  }
+  const loc = window.location.pathname;
+  const clean = loc.replace(/index\.html$/, '');
+  if (clean === route || !clean.endsWith(route)) return null;
+  const base = clean.slice(0, clean.length - route.length);
+  const suffix = /index\.html$/.test(loc) && href.endsWith('/') ? 'index.html' : '';
+  return `${base}${href}${suffix}`;
+}
+
 /** Route transitions: an amber curtain rises from the bottom, the route swaps underneath, the
  *  curtain lifts away from the top. AnimatePresence owns the curtain's exit. Transform-only. */
 export function TransitionProvider({ children }: { children: ReactNode }) {
@@ -22,11 +44,20 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const pending = useRef<string | null>(null);
   const fromPath = useRef(pathname);
 
+  const go = useCallback(
+    (href: string) => {
+      const target = subPathTarget(href);
+      if (target) window.location.assign(target);
+      else router.push(href);
+    },
+    [router],
+  );
+
   const navigate = useCallback(
     (href: string, lbl?: string) => {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce || href === pathname) {
-        router.push(href);
+        go(href);
         return;
       }
       pending.current = href;
@@ -34,14 +65,14 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       setLabel(lbl ?? ROUTE_LABEL[href] ?? '');
       setPhase('covering');
     },
-    [pathname, router],
+    [pathname, go],
   );
 
   // Curtain fully covers → push the route.
   const onCovered = useCallback(() => {
     setPhase('covered');
-    if (pending.current) router.push(pending.current);
-  }, [router]);
+    if (pending.current) go(pending.current);
+  }, [go]);
 
   // Route changed underneath → lift.
   useEffect(() => {
@@ -111,7 +142,7 @@ export function TransitionLink({ href, onClick, children, label, ...rest }: TLPr
     navigate(h, label);
   };
   return (
-    <Link href={href} onClick={handle} {...rest}>
+    <Link href={href} onClick={handle} prefetch={false} {...rest}>
       {children}
     </Link>
   );

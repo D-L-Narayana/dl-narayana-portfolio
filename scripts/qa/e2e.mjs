@@ -122,7 +122,7 @@ console.log(`Routes in sitemap: ${routes.length}`);
   await cell.hover();
   await page.waitForTimeout(200);
   ok(await page.evaluate(() => !!document.querySelector('.matrix[data-hot] tr[data-hot]')), 'Skill matrix cross-highlights on hover');
-  ok((await cell.getAttribute('href'))?.startsWith('/work/'), 'Matrix cells link to case studies');
+  ok(/(^|\/)work\/[a-z0-9-]+\/$/.test((await cell.getAttribute('href')) ?? ''), 'Matrix cells link to case studies');
 
   // Skip link + focus states
   await page.goto(base + '/about/', { waitUntil: 'networkidle' });

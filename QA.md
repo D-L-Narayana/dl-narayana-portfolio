@@ -226,3 +226,20 @@ never waits for hydration.
 - Stack cards show the project summary on `xl` when the viewport is tall enough
   (`[@media(max-height:780px)]:hidden`).
 - Notes aside: chapter list and "From the project" share one sticky container.
+
+## Round 10 — hosting independence (2026-09-16 01:10)
+
+The first preview deploy rendered unstyled: the preview proxy serves the export under a long
+sub-path, and a Next.js static export emits root-absolute `/_next/…` URLs. Rather than assume a
+root origin, the export is now **host-path independent**:
+- `scripts/postbuild.mjs` rewrites root-absolute references in every HTML file to depth-relative
+  ones (assets, images, icons, manifest, feed, PDF, internal links), rewrites the CSS font URLs
+  relative to the stylesheet, and patches the webpack runtime so the public path is derived from the
+  runtime chunk's own `<script src>` (dynamic route chunks load under any prefix).
+- `TransitionLink` / the palette detect a sub-path mount by comparing the canonical URL's route with
+  `location.pathname`; there they perform a relative full-page navigation (with `index.html` when the
+  host is strict about directory indexes). At the origin root the App Router works as before.
+  `prefetch={false}` avoids RSC 404 noise on prefixed hosts.
+- `scripts/qa/serve.mjs` can mount the export under a prefix in strict mode; `scripts/qa/subpath.mjs`
+  asserts CSS/fonts/images/hydration/navigation/palette under `/sub/site` (8/8), while the root
+  suite stays green (60/60) and the link checker now resolves relative references too (2,700 / 0 missing).

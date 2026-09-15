@@ -1,0 +1,35 @@
+// Sub-path hosting check: the export must render and navigate when mounted under a prefix on a
+// strict host (no directory→index.html). Usage: node scripts/qa/subpath.mjs http://127.0.0.1:3211/sub/site
+import { chromium } from 'playwright';
+const base = process.argv[2] || 'http://127.0.0.1:3211/sub/site';
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+const failed = [];
+page.on('response', (r) => r.status() >= 400 && failed.push(`${r.status()} ${r.url().replace(base, '')}`));
+let bad = 0;
+const ok = (c, m) => (c ? console.log('  ✓', m) : (bad++, console.log('  ✗', m)));
+await page.goto(`${base}/index.html`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(2500);
+const styled = await page.evaluate(() => getComputedStyle(document.body).backgroundColor !== 'rgba(0, 0, 0, 0)' && getComputedStyle(document.querySelector('h1')).fontFamily.toLowerCase().includes('zodiak'));
+ok(styled, 'CSS and fonts load under a sub-path');
+ok(await page.evaluate(() => !!document.querySelector('.hero-field canvas')), 'JS hydrated: hero canvas mounted');
+ok(await page.evaluate(() => document.querySelector('picture img')?.currentSrc.includes('/sub/site/images/')), 'Images resolve under the sub-path');
+await page.click('nav a[href$="work/"]');
+await page.waitForURL('**/sub/site/work/index.html', { timeout: 6000 }).catch(() => {});
+await page.waitForTimeout(1200);
+ok(page.url().endsWith('/sub/site/work/index.html'), `Nav link falls back to a relative full navigation (${page.url().replace(base, '')})`);
+ok(await page.evaluate(() => document.querySelectorAll('main ul[role="list"] > li').length === 17), 'Work index renders all 17 projects under the sub-path');
+await page.keyboard.press('Control+k');
+await page.waitForSelector('[role="dialog"]');
+await page.keyboard.type('verilens');
+await page.waitForTimeout(200);
+await page.keyboard.press('Enter');
+await page.waitForURL('**/sub/site/work/verilens/index.html', { timeout: 6000 }).catch(() => {});
+await page.waitForTimeout(800);
+ok(page.url().endsWith('/sub/site/work/verilens/index.html'), 'Palette navigation works under the sub-path');
+ok(await page.evaluate(() => !!document.querySelector('picture img') && document.querySelector('h1')?.textContent === 'VeriLens'), 'Case study renders under the sub-path');
+const real = failed.filter((f) => !/_rsc=|index\.txt/.test(f));
+ok(real.length === 0, `No failed asset requests${real.length ? ': ' + real.slice(0, 3).join(', ') : ''}`);
+await browser.close();
+console.log(bad ? `${bad} FAILED` : 'ALL PASSED');
+process.exit(bad ? 1 : 0);
