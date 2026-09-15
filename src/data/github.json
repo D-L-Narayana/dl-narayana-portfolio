@@ -1,0 +1,538 @@
+{
+  "fetchedAt": "2026-09-15T15:35:12.495Z",
+  "profile": {
+    "login": "D-L-Narayana",
+    "name": "D L Narayana",
+    "location": "INDIA",
+    "html_url": "https://github.com/D-L-Narayana",
+    "avatar_url": "https://avatars.githubusercontent.com/u/249577150?v=4",
+    "public_repos": 18,
+    "followers": 3,
+    "following": 1,
+    "created_at": "2025-12-14T12:25:16Z"
+  },
+  "repos": [
+    {
+      "name": "D-L-Narayana",
+      "description": null,
+      "html_url": "https://github.com/D-L-Narayana/D-L-Narayana",
+      "homepage": null,
+      "language": null,
+      "languages": {},
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-04-05T10:42:41Z",
+      "pushed_at": "2026-09-04T11:06:58Z",
+      "size": 802,
+      "license": null,
+      "commits": 69,
+      "default_branch": "main"
+    },
+    {
+      "name": "lakeflow-cdc-pipeline",
+      "description": "Real-time CDC lakehouse: Postgres -> Debezium -> Kafka -> Spark Structured Streaming -> Bronze/Silver/Gold with SCD2, data-quality quarantine, backfill and Airflow",
+      "html_url": "https://github.com/D-L-Narayana/lakeflow-cdc-pipeline",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 35168,
+        "Makefile": 658
+      },
+      "topics": [],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-09-03T19:14:53Z",
+      "pushed_at": "2026-09-03T19:32:36Z",
+      "size": 23,
+      "license": null,
+      "commits": 2,
+      "default_branch": "main"
+    },
+    {
+      "name": "aerosentry-agents",
+      "description": "Multi-agent AI operations layer for autonomous drone-in-a-box fleets: LangGraph supervisor + specialist agents, hybrid RAG, Pydantic tool calling, VLM/thermal analysis, human-in-the-loop safety gate, fallback protocol, tracing, golden-set evals, FastAPI, Docker, CI.",
+      "html_url": "https://github.com/D-L-Narayana/aerosentry-agents",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 63350,
+        "Dockerfile": 295
+      },
+      "topics": [
+        "agentic-ai",
+        "drones",
+        "fastapi",
+        "human-in-the-loop",
+        "langgraph",
+        "multi-agent",
+        "python",
+        "rag"
+      ],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-09-03T19:33:49Z",
+      "pushed_at": "2026-09-03T19:33:52Z",
+      "size": 787,
+      "license": "MIT",
+      "commits": 1,
+      "default_branch": "main"
+    },
+    {
+      "name": "retail-lakehouse-etl",
+      "description": "PySpark batch ETL: 1M+ rows -> schema-enforced extract, harmonisation, dedupe, DQ quarantine gate, SCD2 star-schema warehouse, Spark SQL marts, MongoDB serving, Airflow DAG",
+      "html_url": "https://github.com/D-L-Narayana/retail-lakehouse-etl",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 28917,
+        "Makefile": 255
+      },
+      "topics": [],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-09-03T19:12:06Z",
+      "pushed_at": "2026-09-03T19:32:37Z",
+      "size": 18,
+      "license": null,
+      "commits": 2,
+      "default_branch": "main"
+    },
+    {
+      "name": "resumeforge",
+      "description": "ResumeForge — privacy-first career toolkit: live resume builder, real-time ATS scoring, PDF resume scanner, cover letters, interview prep, and application tracker. Pure HTML/CSS/JS, Apple design language, zero runtime deps.",
+      "html_url": "https://github.com/D-L-Narayana/resumeforge",
+      "homepage": "https://resumeforge-ruby-rho.vercel.app",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 82737,
+        "CSS": 44944,
+        "HTML": 32862
+      },
+      "topics": [
+        "ats",
+        "career-tools",
+        "cover-letter",
+        "job-search",
+        "privacy",
+        "resume-builder",
+        "vanilla-js"
+      ],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-08-19T16:56:33Z",
+      "pushed_at": "2026-08-23T08:33:45Z",
+      "size": 6481,
+      "license": "MIT",
+      "commits": 36,
+      "default_branch": "main"
+    },
+    {
+      "name": "veridoc-studio",
+      "description": "Client-side KYC document intelligence: WASM OCR, Verhoeff validation, ELA forgery analysis, ONNX face detection",
+      "html_url": "https://github.com/D-L-Narayana/veridoc-studio",
+      "homepage": "https://veridoc-studio.vercel.app",
+      "language": "Python",
+      "languages": {
+        "Python": 25920,
+        "JavaScript": 23023,
+        "HTML": 8671,
+        "CSS": 7118
+      },
+      "topics": [],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-07-26T10:13:57Z",
+      "pushed_at": "2026-07-27T19:26:12Z",
+      "size": 24707,
+      "license": "MIT",
+      "commits": 10,
+      "default_branch": "main"
+    },
+    {
+      "name": "verilens",
+      "description": "Privacy-first in-browser KYC verification: face match, passive liveness, document OCR & tamper forensics — 100% client-side ONNX/WASM, zero inference APIs",
+      "html_url": "https://github.com/D-L-Narayana/verilens",
+      "homepage": null,
+      "language": "Python",
+      "languages": {
+        "Python": 47667,
+        "JavaScript": 29637,
+        "CSS": 7912,
+        "HTML": 6732
+      },
+      "topics": [],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-07-26T10:27:48Z",
+      "pushed_at": "2026-07-27T19:28:37Z",
+      "size": 38071,
+      "license": "MIT",
+      "commits": 5,
+      "default_branch": "main"
+    },
+    {
+      "name": "docuforge",
+      "description": "Client-side document forgery detection lab — ELA, copy-move, noise, EXIF & JPEG forensics in the browser + PyTorch research pipeline",
+      "html_url": "https://github.com/D-L-Narayana/docuforge",
+      "homepage": "https://docuforge-brown.vercel.app",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 21130,
+        "Python": 16573,
+        "CSS": 6157,
+        "HTML": 5584
+      },
+      "topics": [],
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "created_at": "2026-07-26T10:10:10Z",
+      "pushed_at": "2026-07-27T19:28:38Z",
+      "size": 1082,
+      "license": "MIT",
+      "commits": 9,
+      "default_branch": "main"
+    },
+    {
+      "name": "nova-ai-assistant",
+      "description": "✦ Nova — a free, no-signup AI chat assistant. Next.js 14, server-side token streaming, expert personas, markdown + code rendering. No API keys.",
+      "html_url": "https://github.com/D-L-Narayana/nova-ai-assistant",
+      "homepage": "https://nova-ai-assistant-mocha.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 29663,
+        "CSS": 3140,
+        "JavaScript": 227
+      },
+      "topics": [
+        "ai",
+        "chatbot",
+        "chatgpt",
+        "llm",
+        "nextjs",
+        "streaming",
+        "typescript"
+      ],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-24T20:23:54Z",
+      "pushed_at": "2026-06-24T20:23:56Z",
+      "size": 215,
+      "license": null,
+      "commits": 1,
+      "default_branch": "master"
+    },
+    {
+      "name": "stillpoint",
+      "description": "Stillpoint — generative focus environments for deep work. Step into a world, start a timer, and let browser-generated soundscapes carry your deepest work.",
+      "html_url": "https://github.com/D-L-Narayana/stillpoint",
+      "homepage": "https://stillpoint-livid.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 87313,
+        "JavaScript": 3713,
+        "CSS": 3422,
+        "HTML": 2815
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-06T19:28:38Z",
+      "pushed_at": "2026-06-07T06:55:24Z",
+      "size": 10385,
+      "license": "MIT",
+      "commits": 9,
+      "default_branch": "master"
+    },
+    {
+      "name": "typeflow",
+      "description": "Typeflow — a clean, minimal typing speed test. Live WPM, accuracy, shareable result cards.",
+      "html_url": "https://github.com/D-L-Narayana/typeflow",
+      "homepage": "https://typeflow-one.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 24594,
+        "HTML": 1470,
+        "JavaScript": 1413,
+        "CSS": 626
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-07T03:15:16Z",
+      "pushed_at": "2026-06-07T06:55:28Z",
+      "size": 111,
+      "license": "NOASSERTION",
+      "commits": 6,
+      "default_branch": "master"
+    },
+    {
+      "name": "spectra",
+      "description": "Spectra — generate color palettes and CSS gradients. Lock, regenerate, export as CSS/Tailwind/JSON, share by link.",
+      "html_url": "https://github.com/D-L-Narayana/spectra",
+      "homepage": "https://spectra-ten-olive.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 21958,
+        "HTML": 1466,
+        "JavaScript": 1173,
+        "CSS": 771
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-07T03:19:04Z",
+      "pushed_at": "2026-06-07T06:55:30Z",
+      "size": 115,
+      "license": "NOASSERTION",
+      "commits": 6,
+      "default_branch": "master"
+    },
+    {
+      "name": "staynest",
+      "description": "StayNest - full-stack Airbnb-style booking app with search, listing pages, working booking flow and trips. Next.js + API Routes + Motion.",
+      "html_url": "https://github.com/D-L-Narayana/staynest",
+      "homepage": "https://staynest-two.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 515773,
+        "CSS": 3859,
+        "JavaScript": 559
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-03T21:33:17Z",
+      "pushed_at": "2026-06-06T20:27:01Z",
+      "size": 16465,
+      "license": null,
+      "commits": 32,
+      "default_branch": "master"
+    },
+    {
+      "name": "algoviz",
+      "description": "Interactive DSA algorithm visualizer — 6 sorting + 4 pathfinding algorithms with live metrics. React + Vite + Motion.",
+      "html_url": "https://github.com/D-L-Narayana/algoviz",
+      "homepage": "https://algoviz-lilac.vercel.app",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 42350,
+        "CSS": 1734,
+        "HTML": 384
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-03T19:43:19Z",
+      "pushed_at": "2026-06-06T07:21:43Z",
+      "size": 48,
+      "license": null,
+      "commits": 7,
+      "default_branch": "main"
+    },
+    {
+      "name": "cryptolab",
+      "description": "Cryptography playground — classical ciphers + real Web Crypto (hashing, AES-GCM, RSA). All in-browser. React + Vite + Motion.",
+      "html_url": "https://github.com/D-L-Narayana/cryptolab",
+      "homepage": "https://cryptolab-six.vercel.app",
+      "language": "JavaScript",
+      "languages": {
+        "JavaScript": 36633,
+        "CSS": 1146,
+        "HTML": 389
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-03T19:43:35Z",
+      "pushed_at": "2026-06-05T12:11:04Z",
+      "size": 41,
+      "license": null,
+      "commits": 4,
+      "default_branch": "main"
+    },
+    {
+      "name": "githublens",
+      "description": "GitHubLens - analyze any GitHub profile: stars, languages, top repos, developer score. Next.js + live GitHub API + Recharts.",
+      "html_url": "https://github.com/D-L-Narayana/githublens",
+      "homepage": "https://githublens-kappa.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 23428,
+        "CSS": 967,
+        "JavaScript": 559
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-03T21:33:14Z",
+      "pushed_at": "2026-06-05T12:10:51Z",
+      "size": 75,
+      "license": null,
+      "commits": 4,
+      "default_branch": "master"
+    },
+    {
+      "name": "coderunner",
+      "description": "CodeRunner - a code typing game. Race the clock typing real code, build combos, climb the leaderboard. Next.js + React + Motion.",
+      "html_url": "https://github.com/D-L-Narayana/coderunner",
+      "homepage": "https://coderunner-snowy.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 19069,
+        "CSS": 1352,
+        "JavaScript": 559
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-03T21:33:24Z",
+      "pushed_at": "2026-06-05T12:10:44Z",
+      "size": 70,
+      "license": null,
+      "commits": 4,
+      "default_branch": "master"
+    },
+    {
+      "name": "cityhelp",
+      "description": "CityHelp - full-stack civic platform: report city issues, upvote, track on a live dashboard + map, find services. Next.js + API Routes + Recharts.",
+      "html_url": "https://github.com/D-L-Narayana/cityhelp",
+      "homepage": "https://cityhelp-sage.vercel.app",
+      "language": "TypeScript",
+      "languages": {
+        "TypeScript": 393440,
+        "CSS": 2280,
+        "JavaScript": 559
+      },
+      "topics": [],
+      "stargazers_count": 1,
+      "forks_count": 0,
+      "created_at": "2026-06-03T21:33:10Z",
+      "pushed_at": "2026-06-05T12:10:41Z",
+      "size": 2685,
+      "license": null,
+      "commits": 13,
+      "default_branch": "master"
+    }
+  ],
+  "activity": {
+    "weeks": [
+      {
+        "start": "2026-03-23",
+        "count": 0
+      },
+      {
+        "start": "2026-03-30",
+        "count": 14
+      },
+      {
+        "start": "2026-04-06",
+        "count": 0
+      },
+      {
+        "start": "2026-04-13",
+        "count": 0
+      },
+      {
+        "start": "2026-04-20",
+        "count": 0
+      },
+      {
+        "start": "2026-04-27",
+        "count": 0
+      },
+      {
+        "start": "2026-05-04",
+        "count": 1
+      },
+      {
+        "start": "2026-05-11",
+        "count": 5
+      },
+      {
+        "start": "2026-05-18",
+        "count": 0
+      },
+      {
+        "start": "2026-05-25",
+        "count": 3
+      },
+      {
+        "start": "2026-06-01",
+        "count": 110
+      },
+      {
+        "start": "2026-06-08",
+        "count": 0
+      },
+      {
+        "start": "2026-06-15",
+        "count": 3
+      },
+      {
+        "start": "2026-06-22",
+        "count": 1
+      },
+      {
+        "start": "2026-06-29",
+        "count": 2
+      },
+      {
+        "start": "2026-07-06",
+        "count": 0
+      },
+      {
+        "start": "2026-07-13",
+        "count": 3
+      },
+      {
+        "start": "2026-07-20",
+        "count": 17
+      },
+      {
+        "start": "2026-07-27",
+        "count": 7
+      },
+      {
+        "start": "2026-08-03",
+        "count": 0
+      },
+      {
+        "start": "2026-08-10",
+        "count": 0
+      },
+      {
+        "start": "2026-08-17",
+        "count": 36
+      },
+      {
+        "start": "2026-08-24",
+        "count": 0
+      },
+      {
+        "start": "2026-08-31",
+        "count": 18
+      },
+      {
+        "start": "2026-09-07",
+        "count": 0
+      },
+      {
+        "start": "2026-09-14",
+        "count": 0
+      }
+    ],
+    "totalCommits": 220,
+    "firstCommit": "2026-04-05T10:42:41Z",
+    "lastCommit": "2026-09-04T11:06:57Z"
+  },
+  "languages": {
+    "Python": 217595,
+    "Makefile": 913,
+    "Dockerfile": 295,
+    "JavaScript": 244272,
+    "CSS": 85428,
+    "HTML": 60373,
+    "TypeScript": 1115238
+  }
+}

@@ -1,13 +1,24 @@
-# D L NARAYANA — Portfolio
+# D L Narayana — portfolio
 
-Cinematic single-page portfolio:
+Personal developer portfolio, rebuilt end-to-end on **Next.js 15 (App Router, static export) +
+TypeScript + Tailwind v4 + Motion (framer-motion) + Lenis**, driven by real GitHub data.
 
-1. Hand-drawn "Hello" stroke intro on black → hard shake → fast fly-up → black fades open like eyesight returning
-2. "D L NARAYANA" elastic letter entrance on a pink editorial backdrop
-3. Three scroll steps tuck the name into the bottom-left corner
-4. A filmstrip project carousel (shared top edge, focused card unfurls to full height, background re-grades to each project's accent) with CityHelp, StayNest and ResumeForge
-5. Hover a focused card for 1s → it pops → a scroll-to-expand overlay grows the project full-screen and reveals its story, features and live link
+- `research.md` — what the old repo was, the GitHub data harvested, the reference research.
+- `PLAN.md` — stack, art direction ("Signal & Ledger"), wireframes, QA schedule.
+- `QA.md` — every iteration round with critique, fixes, FPS and Lighthouse numbers.
 
-Stack: vanilla HTML/CSS/JS + GSAP 3. The carousel/overlay interactions are adapted from a React + framer-motion hero component into dependency-free GSAP so the site stays zero-build. All fonts/libraries vendored.
+## Run
 
-Run locally: `python3 -m http.server 8091`
+```bash
+npm install
+npm run data      # optional: refresh src/data/github.json from the public GitHub API (GITHUB_TOKEN optional)
+npm run images    # optional: regenerate AVIF/WebP renditions from assets/raw-screenshots
+npm run build     # static export → out/ (+ OG image post-processing)
+npm start         # serve out/ on :3000
+```
+
+QA: `npm run qa:shots -- r1`, `npm run qa:fps`, `npm run qa:lighthouse` (needs the static server on
+:3210 — `npx serve out -l 3210`).
+
+No storage APIs (localStorage/sessionStorage/indexedDB), no pointer lock, no fullscreen. Theme is
+system-preference + in-memory toggle. Fonts (Zodiak, Satoshi, JetBrains Mono) are self-hosted.

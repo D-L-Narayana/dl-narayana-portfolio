@@ -1,0 +1,45 @@
+{
+  "url": "http://127.0.0.1:3210/",
+  "when": "2026-09-15T16:04:31.115Z",
+  "note": "Headless Chromium, software rendering (no GPU) — real hardware is faster.",
+  "scroll": {
+    "label": "scroll (wheel, 1440×900)",
+    "frames": 1923,
+    "seconds": 10.298599999999997,
+    "avgFps": 186.72440914299037,
+    "p50ms": 4.099999999998545,
+    "p95ms": 12.800000000000182,
+    "p99ms": 18.899999999999636,
+    "onePercentLowFps": 52.91005291005393,
+    "droppedFrames": 7,
+    "longTasks": 0,
+    "longestTaskMs": 0,
+    "trace": {
+      "drawFrames": 1939,
+      "tasksOver50ms": 0,
+      "layouts": 2162,
+      "styleRecalcs": 4668,
+      "events": 147644
+    }
+  },
+  "hover": {
+    "label": "hover sweep (nav, buttons, cards)",
+    "frames": 954,
+    "seconds": 6.066399999999998,
+    "avgFps": 157.25965976526444,
+    "p50ms": 4.80000000000291,
+    "p95ms": 14.100000000002183,
+    "p99ms": 21.799999999999272,
+    "onePercentLowFps": 45.87155963302905,
+    "droppedFrames": 5,
+    "longTasks": 0,
+    "longestTaskMs": 0,
+    "trace": {
+      "drawFrames": 957,
+      "tasksOver50ms": 0,
+      "layouts": 956,
+      "styleRecalcs": 1340,
+      "events": 71264
+    }
+  }
+}

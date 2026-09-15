@@ -1,0 +1,72 @@
+{
+  "resumeforge": {
+    "url": "https://resumeforge-ruby-rho.vercel.app",
+    "status": 200,
+    "title": "ResumeForge — Build a resume that gets interviews"
+  },
+  "docuforge": {
+    "url": "https://docuforge-brown.vercel.app",
+    "status": 200,
+    "title": "DocuForge — Document Forgery Detection Lab"
+  },
+  "veridoc-studio": {
+    "url": "https://veridoc-studio.vercel.app",
+    "status": 200,
+    "title": "VeriDoc Studio — Client-Side KYC Document Intelligence"
+  },
+  "verilens": {
+    "url": "https://verilens-snowy.vercel.app",
+    "status": 200,
+    "title": "VeriLens — On-Device KYC Verification"
+  },
+  "nova-ai-assistant": {
+    "url": "https://nova-ai-assistant-mocha.vercel.app",
+    "status": 200,
+    "title": "Nova — AI Assistant"
+  },
+  "spectra": {
+    "url": "https://spectra-ten-olive.vercel.app",
+    "status": 200,
+    "title": "Spectra - Color palettes, instantly"
+  },
+  "typeflow": {
+    "url": "https://typeflow-one.vercel.app",
+    "status": 200,
+    "title": "Typeflow - How fast do you really type?"
+  },
+  "stillpoint": {
+    "url": "https://stillpoint-livid.vercel.app",
+    "status": 200,
+    "title": "Stillpoint - Your deep work sanctuary"
+  },
+  "staynest": {
+    "url": "https://staynest-two.vercel.app",
+    "status": 200,
+    "title": "StayNest — Find your next stay"
+  },
+  "algoviz": {
+    "url": "https://algoviz-lilac.vercel.app",
+    "status": 200,
+    "title": "AlgoViz · Algorithm Visualizer"
+  },
+  "cryptolab": {
+    "url": "https://cryptolab-six.vercel.app",
+    "status": 200,
+    "title": "CryptoLab — Cryptography Playground"
+  },
+  "githublens": {
+    "url": "https://githublens-kappa.vercel.app",
+    "status": 200,
+    "title": "GitHubLens — Profile & Repo Analyzer"
+  },
+  "coderunner": {
+    "url": "https://coderunner-snowy.vercel.app",
+    "status": 200,
+    "title": "CodeRunner — The code typing game"
+  },
+  "cityhelp": {
+    "url": "https://cityhelp-sage.vercel.app",
+    "status": 200,
+    "title": "CityHelp — Report. Track. Resolve."
+  }
+}

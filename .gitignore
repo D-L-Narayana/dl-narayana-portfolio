@@ -1,4 +1,12 @@
 node_modules
+.next
+out
+*.log
+.DS_Store
 .vercel
-v.log
-shots/
+tsconfig.tsbuildinfo
+next-env.d.ts
+# raw API dumps from authenticated calls (may include private-repo metadata) — never committed
+.research/
+qa/shots/
+qa/traces/
